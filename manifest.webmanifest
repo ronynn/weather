@@ -1,6 +1,6 @@
 {
 	"name": "Weather by Ronynn",
-	"short_name": "glass-weather",
+	"short_name": "Weather by Ronynn",
 	"description": "Stay ahead of the weather.",
 	"icons": [{
 		"src": "/weather/android-chrome-192x192.png",

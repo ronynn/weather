@@ -24,6 +24,6 @@ Ronynn Weather is powered by the WTTR API for real-time weather data.
 Ronynn weather currently isn't looking for any contributions, but feel free to suggest new features.
 
 ## Feedback
-We'd love to hear your thoughts on Ronynn Weather! If you have any feedback, suggestions, or just want to say hi, don't hesitate to reach out to us.
+We'd love to hear your thoughts on Ronynn Weather! If you have any feedback, suggestions, or just want to say hi, don't hesitate to reach out.
 
 Enjoy the weather in style with Ronynn Weather! 🌤️

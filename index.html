@@ -1,0 +1,203 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+
+        <link rel="manifest" href="manifest.webmanifest" />
+
+        <title>Weather by Ronynn</title>
+        <style>
+            :root {
+                --bg-color: #4158d0;
+                /* Default background color */
+                --bg-image: linear-gradient(to top, #4158d0 0%, #c850c0 100%);
+            }
+
+            body {
+                text-decoration: none;
+                background-color: var(--bg-color);
+
+                background-image: var(--bg-image);
+
+                color: white;
+                font-family: Consolas;
+
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
+
+            h1 {
+                font-size: 2.8em;
+            }
+
+            #loc {
+                text-align: center;
+            }
+
+            #other {
+                padding: 5px;
+                font-size: 1.2em;
+            }
+
+            #desc {
+                padding: 0px;
+                margin: 5px;
+                font-size: 2em;
+                text-decoration: italic;
+            }
+            #sunalert {
+                margin: 8%;
+            }
+
+            .glassmorphism-form {
+                background: rgba(255, 255, 255, 0.2);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 5px;
+                display: flex;
+                align-items: center;
+                width: 50%;
+                margin: 0 auto;
+
+                ::placeholder {
+                    color: white;
+                }
+            }
+
+            .glassmorphism-form input {
+                background: transparent;
+                border: none;
+                outline: none;
+                color: white;
+                flex: 1;
+                padding: 8px;
+
+                ::placeholder {
+                    color: white;
+                }
+            }
+
+            .panel {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                grid-template-columns: 40% 50%;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 20px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+                margin: 5%;
+            }
+
+            .left-panel {
+                text-align: right;
+                margin: 5px;
+                padding: 0;
+                font-size: 2em;
+            }
+
+            .right-panel {
+                text-align: left;
+                margin: 5px;
+                padding: 0;
+            }
+
+            .future,
+            .others {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                grid-template-columns: 40% 50%;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 20px;
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+                margin: 5%;
+            }
+
+            .div1,
+            .div2 {
+                position: relative;
+                width: 50%;
+                text-align: center;
+                font-size: 1.2em;
+                padding: 0;
+            }
+            .add-button {
+                position: absolute;
+                top: 1px;
+                left: 1px;
+                display: block;
+            }
+        </style>
+    </head>
+
+    <body>
+        <button class="add-button">Add to home screen</button>
+        <form id="myForm" class="glassmorphism-form">
+            <input type="text" id="myInput" placeholder="Enter city name .." />
+        </form>
+
+        <h1 id="loc"></h1>
+        <h5 id="date" style="text-align: center"></h5>
+        <center>
+            <h2 id="desc"></h2>
+        </center>
+        <div class="panel">
+            <center>
+                <h2 id="desc"></h2>
+            </center>
+            <div class="left-panel">
+                <h1 id="temp"></h1>
+            </div>
+            <div class="right-panel" style="font-size: 1.5em">
+                <p id="minmax"></p>
+            </div>
+        </div>
+
+        <div class="others">
+            <p id="other"></p>
+        </div>
+
+        <div id="sunalert"></div>
+
+        <div class="future">
+            <div class="div1">
+                <p id="tomorrow"></p>
+            </div>
+            <div class="div2">
+                <p id="overmorrow"></p>
+            </div>
+        </div>
+    </body>
+    <noscript>
+        It's not a server based app so you need javascript to run this.
+    </noscript>
+
+    <script>
+        if (navigator.serviceWorker) {
+                navigator.serviceWorker.register("/weather/sw.js", {
+                    scope: "/weather/"
+                });
+            }
+    </script>
+    <script src="script.js"></script>
+</html>

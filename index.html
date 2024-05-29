@@ -23,11 +23,11 @@
 
         <link rel="manifest" href="manifest.webmanifest" />
 
-        <title>Weather by Ronynn</title>
+        <title>Ronynn Weather</title>
         <style>
             :root {
                 --bg-color: #4158d0;
-                /* Default background color */
+
                 --bg-image: linear-gradient(to top, #4158d0 0%, #c850c0 100%);
             }
 
@@ -38,7 +38,6 @@
                 background-image: var(--bg-image);
 
                 color: white;
-                font-family: Consolas;
 
                 background-repeat: no-repeat;
                 background-size: cover;
@@ -121,7 +120,7 @@
             }
 
             .future,
-            .others {
+            .details {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -141,12 +140,120 @@
                 font-size: 1.2em;
                 padding: 0;
             }
-           
+
+            .tabcontent {
+                color: white;
+                padding: 10px 10px;
+                margin-left: 8%;
+                margin-right: 8%;
+                border: 0px solid #ccc;
+                display: none;
+                position: relative;
+                z-index: 1;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 12px;
+            }
+
+            .tablinks {
+                color: white;
+                padding: 4%;
+                border: 0px solid #ccc;
+                cursor: pointer;
+                position: relative;
+                z-index: 1;
+                align-items: center;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 12px;
+                margin: 4%;
+            }
+
+            .tablinks:hover {
+                background-color: rgba(255, 255, 255, 0.5);
+            }
+            #buttons,
+            #about {
+                text-align: center;
+                padding: 0%;
+                margin: 0%;
+            }
+            a {
+                text-decoration:;
+                color: white;
+            }
+
+            canvas {
+                background-color: rgba(255, 255, 255, 0.6);
+                margin: 7%%;
+                border-radius: 8px;
+            }
+            noscript {
+                align-items: center;
+                margin-top: 20%;
+            }
+            table {
+                width: 100%;
+            }
+            
+            
+            nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  display: flex;
+  justify-content: left;
+  font-family: "Poppins", sans-serif;
+  z-index: 1000; /* Ensure the nav is above other content */
+}
+
+nav a {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px; /* Adjust padding as needed */
+  text-decoration: none;
+  color: white;
+}
+
+nav a img {
+  width: 20px; /* Adjust image width as needed */
+  margin-right: 5px; /* Add spacing between image and text */
+}
+
+nav a:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+            
+            
         </style>
     </head>
+    <!-- Google tag (gtag.js) -->
+    <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-MDG8SVY9GB"
+    ></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "G-MDG8SVY9GB");
+    </script>
 
     <body>
-     
+    	
+    	 <nav>
+                <a href="https://ronynn.github.io/weather"> ronynn weather </a>
+                </nav>
+    	<br/>
+    	<br/>
+    	
+    	
         <form id="myForm" class="glassmorphism-form">
             <input type="text" id="myInput" placeholder="Enter city name .." />
         </form>
@@ -168,11 +275,11 @@
             </div>
         </div>
 
-        <div class="others">
-            <p id="other"></p>
+        <div class="details">
+            <p id="detailsnow"></p>
         </div>
 
-        <div id="sunalert"></div>
+        <div id="todaydetails"></div>
 
         <div class="future">
             <div class="div1">
@@ -182,17 +289,92 @@
                 <p id="overmorrow"></p>
             </div>
         </div>
+
+        <div id="buttons">
+            <button class="tablinks" onclick="openTab(event, 'today')">
+                <details>
+                    <summary>Today</summary>
+                </details>
+            </button>
+
+            <button class="tablinks" onclick="openTab(event, 'nextday')">
+                <details>
+                    <summary>Tomorrow</summary>
+                </details>
+            </button>
+            <button class="tablinks" onclick="openTab(event, 'nextnextday')">
+                <details>
+                    <summary>Overmorrow</summary>
+                </details>
+            </button>
+        </div>
+
+        <div id="today" class="tabcontent">
+            <canvas id="weatherCharttoday" width="400" height="200"></canvas
+            ><br />
+        </div>
+
+        <div id="nextday" class="tabcontent">
+            <canvas id="weatherChartnextday" width="400" height="200"></canvas
+            ><br />
+        </div>
+
+        <div id="nextnextday" class="tabcontent">
+            <canvas
+                id="weatherChartnextnextday"
+                width="400"
+                height="200"
+            ></canvas
+            ><br />
+        </div>
+
+        <div id="about">
+            <br />
+            <br />
+            Made by <a href="https://ronynn.github.io">Ronynn</a><br />
+            <br />
+            <a href="https://ronynn.github.io/blog">Blog Post</a><br />
+            <br />
+            Please give some stars 🌟 at the
+            <a href="https://github.com/ronynn/weather">github repository</a>.
+            <br />
+            <br />
+            <a href="https://github.com/ronynn/weather"
+                ><img src="github-mark-white.svg" style="width: 10%"
+            /></a>
+        </div>
+        <div></div>
     </body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <noscript>
-        It's not a server based app so you need javascript to run this.
+        It's not a server based app so you need javascript to run this. <br />
+        Ronynn Weather is an open source app with its repo on github. <br />
+        <br />
+        Made with 😺 by <a href="https://ronynn.github.io">Ronynn</a><br />
+        <br />
+        Blog Post Link<br />
+        <br />
+        <a href="https://github.com/ronynn/weather"
+            ><img src="github-mark-white.svg" style="width: 10%"
+        /></a>
     </noscript>
 
     <script>
         if (navigator.serviceWorker) {
-                navigator.serviceWorker.register("/weather/sw.js", {
-                    scope: "/weather/"
-                });
+            navigator.serviceWorker.register("/weather/sw.js", {
+                scope: "/weather/"
+            });
+        }
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
             }
+            document.getElementById(tabName).style.display = "block";
+        }
     </script>
     <script src="script.js"></script>
 </html>

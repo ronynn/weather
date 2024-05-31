@@ -187,48 +187,79 @@
                 margin: 7%%;
                 border-radius: 8px;
             }
-            noscript {
-                align-items: center;
-                margin-top: 20%;
-            }
+
             table {
                 width: 100%;
             }
-            
-            
+
             nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.3);
-  color: white;
-  display: flex;
-  justify-content: left;
-  font-family: "Poppins", sans-serif;
-  z-index: 1000; /* Ensure the nav is above other content */
-}
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.3);
+                backdrop-filter: blur(5px);
+                color: white;
+                display: flex;
+                justify-content: space-between;
+                font-family: "Poppins", sans-serif;
+                z-index: 1000; /* Ensure the nav is above other content */
+            }
 
-nav a {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px; /* Adjust padding as needed */
-  text-decoration: none;
-  color: white;
-}
+            nav a {
+                display: flex;
+                align-items: center;
+                padding: 8px 12px; /* Adjust padding as needed */
+                text-decoration: none;
+                color: white;
+            }
 
-nav a img {
-  width: 20px; /* Adjust image width as needed */
-  margin-right: 5px; /* Add spacing between image and text */
-}
+            nav a img {
+                width: 35px; /* Adjust image width as needed */
+                margin-right: 5px; /* Add spacing between image and text */
+            }
 
-nav a:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
+            nav a:hover,
+            button a:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
 
-            
-            
+            button {
+                background: transparent;
+                border: none;
+                color: white;
+            }
+
+            .button-container,
+            .leftie {
+                display: flex;
+            }
+
+            /* Dark mode styles */
+            @media (prefers-color-scheme: dark) {
+                .panel,
+                .future,
+                .details,
+                .tabcontent {
+                    background: rgba(128, 128, 128, 0.3);
+                    color: white;
+                    border-color: white;
+                }
+            }
+
+            /* Small screen (thin phone) styles */
+            @media (max-width: 600px) {
+                .panel,
+                .future,
+                .details,
+                .tabcontent {
+                    background: none;
+                    padding: 0;
+                }
+            }
         </style>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2749889536957447"
+     crossorigin="anonymous"></script>
     </head>
     <!-- Google tag (gtag.js) -->
     <script
@@ -246,14 +277,25 @@ nav a:hover {
     </script>
 
     <body>
-    	
-    	 <nav>
+        <nav>
+            <div class="leftie">
                 <a href="https://ronynn.github.io/weather"> ronynn weather </a>
-                </nav>
-    	<br/>
-    	<br/>
-    	
-    	
+                <!-- <a href="https://github.com/ronynn/weather"
+                ><img src="github-mark-white.svg" style="width: 10%"
+            /></a>-->
+            </div>
+
+            <div class="button-container">
+                <button onclick="openTab(event, 'today')">Today</button>
+                <button onclick="openTab(event, 'nextday')">Tomorrow</button>
+                <button onclick="openTab(event, 'nextnextday')">
+                    Overmorrow
+                </button>
+            </div>
+        </nav>
+        <br />
+        <br />
+
         <form id="myForm" class="glassmorphism-form">
             <input type="text" id="myInput" placeholder="Enter city name .." />
         </form>
@@ -290,25 +332,6 @@ nav a:hover {
             </div>
         </div>
 
-        <div id="buttons">
-            <button class="tablinks" onclick="openTab(event, 'today')">
-                <details>
-                    <summary>Today</summary>
-                </details>
-            </button>
-
-            <button class="tablinks" onclick="openTab(event, 'nextday')">
-                <details>
-                    <summary>Tomorrow</summary>
-                </details>
-            </button>
-            <button class="tablinks" onclick="openTab(event, 'nextnextday')">
-                <details>
-                    <summary>Overmorrow</summary>
-                </details>
-            </button>
-        </div>
-
         <div id="today" class="tabcontent">
             <canvas id="weatherCharttoday" width="400" height="200"></canvas
             ><br />
@@ -328,36 +351,39 @@ nav a:hover {
             ><br />
         </div>
 
+        <div id="buttons">
+            <button class="tablinks" onclick="openTab(event, 'today')">
+                Today
+            </button>
+
+            <button class="tablinks" onclick="openTab(event, 'nextday')">
+                Tomorrow
+            </button>
+            <button class="tablinks" onclick="openTab(event, 'nextnextday')">
+                Overmorrow
+            </button>
+        </div>
+
         <div id="about">
             <br />
             <br />
-            Made by <a href="https://ronynn.github.io">Ronynn</a><br />
-            <br />
-            <a href="https://ronynn.github.io/blog">Blog Post</a><br />
+            Made by Ronynn: <a href="https://ronynn.github.io">Homepage</a>,
+
+            <a href="https://ronynn.github.io/blog">Blog</a><br />
             <br />
             Please give some stars 🌟 at the
             <a href="https://github.com/ronynn/weather">github repository</a>.
             <br />
             <br />
-            <a href="https://github.com/ronynn/weather"
-                ><img src="github-mark-white.svg" style="width: 10%"
-            /></a>
         </div>
         <div></div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <noscript>
-        It's not a server based app so you need javascript to run this. <br />
-        Ronynn Weather is an open source app with its repo on github. <br />
-        <br />
-        Made with 😺 by <a href="https://ronynn.github.io">Ronynn</a><br />
-        <br />
-        Blog Post Link<br />
-        <br />
-        <a href="https://github.com/ronynn/weather"
-            ><img src="github-mark-white.svg" style="width: 10%"
-        /></a>
+        <div class="noscript" style="text-align: center">
+            It's not a server based app so you need javascript to run this.
+        </div>
     </noscript>
 
     <script>
@@ -374,7 +400,19 @@ nav a:hover {
                 tabcontent[i].style.display = "none";
             }
             document.getElementById(tabName).style.display = "block";
+            document
+                .getElementById(tabName)
+                .scrollIntoView({ behavior: "smooth", block: "center" });
         }
     </script>
     <script src="script.js"></script>
+    <script
+        type="text/javascript"
+        id="cookiebanner"
+        src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
+        data-height="25px"
+        data-position="bottom"
+        data-moreinfo="https://ronynn.github.io/blog/privacy"
+        data-message="We use cookies to improve your app experience."
+    ></script>
 </html>

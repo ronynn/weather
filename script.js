@@ -16,9 +16,24 @@ async function getWeather() {
     var api_url = `https://wttr.in/${city}?format=j1`;
     console.log("API URL: " + api_url);
 
-    const response = await fetch(api_url);
-    const data = await response.json();
+    try {
+        const response = await fetch(api_url);
+        const data = await response.json();
+        lastFetchedData = data;
+        displayWeatherData(data);
+    } catch (error) {
+        console.error("Error fetching data:", error);
+        if (lastFetchedData) {
+            console.log("Displaying last fetched data.");
+            displayWeatherData(lastFetchedData);
+        } else {
+            console.log("No last fetched data available.");
+            // Handle error gracefully or show a message to the user
+        }
+    }
+}
 
+function displayWeatherData(data) {
     let loc = data.nearest_area[0].areaName[0].value;
     let region = data.nearest_area[0].region[0].value;
 
@@ -42,7 +57,7 @@ async function getWeather() {
     let nextnextdaymin = data.weather[2].mintempC;
 
     // ------------------------- today
-
+    let todaydate = data.weather[0].date;
     // 0am
     let today0temp = data.weather[0].hourly[0].tempC;
     let today0winddir = data.weather[0].hourly[0].winddir16Point;
@@ -92,6 +107,7 @@ async function getWeather() {
     let today7weatherdesc = data.weather[0].hourly[7].weatherDesc[0].value;
 
     // ----------------------- nextday
+    let nextdaydate = data.weather[1].date;
     // 0am
     let nextday0temp = data.weather[1].hourly[0].tempC;
     let nextday0winddir = data.weather[1].hourly[0].winddir16Point;
@@ -141,7 +157,7 @@ async function getWeather() {
     let nextday7weatherdesc = data.weather[1].hourly[7].weatherDesc[0].value;
 
     // ----------------------- nextnextday
-
+    let nextnextdaydate = data.weather[2].date;
     // 0am
     let nextnextday0temp = data.weather[2].hourly[0].tempC;
     let nextnextday0winddir = data.weather[2].hourly[0].winddir16Point;
@@ -301,8 +317,8 @@ async function getWeather() {
         nextnextdaymin;
 
     // For Today
-document.getElementById("today").innerHTML += `
-Today in ${loc}, ${region} <br/>
+    document.getElementById("today").innerHTML += `
+Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 <table style="border: 1px solid white; border-collapse: collapse;border-radius:5px;">
   <tr>
     <th style="border: 1px solid white;">Time</th>
@@ -362,10 +378,9 @@ Today in ${loc}, ${region} <br/>
 <br/>
 `;
 
-
     // For Tomorrow
     document.getElementById("nextday").innerHTML += `
-    Tommorow in ${loc}, ${region} <br/>
+    Tommorow in ${loc}, ${region} <br/> (${nextdaydate}) <br/>
 <table style="border: 1px solid white; border-collapse: collapse;border-radius:5px;">
   <tr>
     <th style="border: 1px solid white;">Time</th>
@@ -425,9 +440,7 @@ Today in ${loc}, ${region} <br/>
 <br/>
 `;
 
-    
-    
-/*    document.getElementById("nextday").innerHTML += `
+    /*    document.getElementById("nextday").innerHTML += `
 <p>0 AM: <br/> ${nextday0temp}(${nextday0feelsc})°C, Wind Speed - ${nextday0windspeed} km/h, ${nextday0winddir} <br/> Condition - ${nextday0weatherdesc}</p>
 <p>3 AM: <br/> ${nextday1temp}(${nextday1feelsc})°C, Wind Speed - ${nextday1windspeed} km/h, ${nextday1winddir} <br/> Condition - ${nextday1weatherdesc}</p>
 <p>6 AM: <br/> ${nextday2temp}(${nextday2feelsc})°C, Wind Speed - ${nextday2windspeed} km/h, ${nextday2winddir} <br/> Condition - ${nextday2weatherdesc}</p>
@@ -440,8 +453,8 @@ Today in ${loc}, ${region} <br/>
 */
     // For Overmorrow
 
-document.getElementById("nextnextday").innerHTML += `
-Day after tommorow in ${loc}, ${region} <br/>
+    document.getElementById("nextnextday").innerHTML += `
+Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate})<br/>
 <table style="border: 1px solid white; border-collapse: collapse;border-radius:5px;">
   <tr>
     <th style="border: 1px solid white;">Time</th>
@@ -501,8 +514,7 @@ Day after tommorow in ${loc}, ${region} <br/>
 <br/>
 `;
 
-
-/*
+    /*
     if (4 < formattedHours < 7) {
         document.documentElement.style.setProperty(
             "--bg-image",
@@ -528,12 +540,9 @@ Day after tommorow in ${loc}, ${region} <br/>
             "linear-gradient(to top, #C02425 0%, #F0CB35 100%)"
         );
     }
-    
-    
-    
+
     //------------------ graphs
 
-  
     var todayTemps = {
         today0temp,
         today1temp,
@@ -597,147 +606,137 @@ Day after tommorow in ${loc}, ${region} <br/>
         }
     });
 
-//------------------
+    //------------------
 
-var nextdayTemps = {
-    nextday0temp,
-    nextday1temp,
-    nextday2temp,
-    nextday3temp,
-    nextday4temp,
-    nextday5temp,
-    nextday6temp,
-    nextday7temp
-};
+    var nextdayTemps = {
+        nextday0temp,
+        nextday1temp,
+        nextday2temp,
+        nextday3temp,
+        nextday4temp,
+        nextday5temp,
+        nextday6temp,
+        nextday7temp
+    };
 
-var nextdayFeels = {
-    nextday0feelsc,
-    nextday1feelsc,
-    nextday2feelsc,
-    nextday3feelsc,
-    nextday4feelsc,
-    nextday5feelsc,
-    nextday6feelsc,
-    nextday7feelsc
-};
+    var nextdayFeels = {
+        nextday0feelsc,
+        nextday1feelsc,
+        nextday2feelsc,
+        nextday3feelsc,
+        nextday4feelsc,
+        nextday5feelsc,
+        nextday6feelsc,
+        nextday7feelsc
+    };
 
-var ctx = document.getElementById("weatherChartnextday").getContext("2d");
+    var ctx = document.getElementById("weatherChartnextday").getContext("2d");
 
-var tempValues = [];
-var feelsLikeValues = [];
-var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
+    var tempValues = [];
+    var feelsLikeValues = [];
+    var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
 
-for (var i = 0; i <= 7; i++) {
-    tempValues.push(nextdayTemps[`nextday${i}temp`]);
-    feelsLikeValues.push(nextdayFeels[`nextday${i}feelsc`]);
-}
+    for (var i = 0; i <= 7; i++) {
+        tempValues.push(nextdayTemps[`nextday${i}temp`]);
+        feelsLikeValues.push(nextdayFeels[`nextday${i}feelsc`]);
+    }
 
-var chart = new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: labels,
-        datasets: [
-            {
-                label: "Temperature in °C",
-                data: tempValues,
-                borderColor: "#4CAF50", // Material Design Green
-                backgroundColor: "rgba(76, 175, 80, 0.2)", // Material Design Green with opacity
-                fill: true
-            },
-            {
-                label: "Feels-Like Temperature",
-                data: feelsLikeValues,
-                borderColor: "#2196F3", // Material Design Blue
-                backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
-                fill: true
-            }
-        ]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
+    var chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature in °C",
+                    data: tempValues,
+                    borderColor: "#4CAF50", // Material Design Green
+                    backgroundColor: "rgba(76, 175, 80, 0.2)", // Material Design Green with opacity
+                    fill: true
+                },
+                {
+                    label: "Feels-Like Temperature",
+                    data: feelsLikeValues,
+                    borderColor: "#2196F3", // Material Design Blue
+                    backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
+    });
+
+    //------------------
+
+    var nextnextdayTemps = {
+        nextnextday0temp,
+        nextnextday1temp,
+        nextnextday2temp,
+        nextnextday3temp,
+        nextnextday4temp,
+        nextnextday5temp,
+        nextnextday6temp,
+        nextnextday7temp
+    };
+
+    var nextnextdayFeels = {
+        nextnextday0feelsc,
+        nextnextday1feelsc,
+        nextnextday2feelsc,
+        nextnextday3feelsc,
+        nextnextday4feelsc,
+        nextnextday5feelsc,
+        nextnextday6feelsc,
+        nextnextday7feelsc
+    };
+
+    var ctx = document
+        .getElementById("weatherChartnextnextday")
+        .getContext("2d");
+
+    var tempValues = [];
+    var feelsLikeValues = [];
+    var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
+
+    for (var i = 0; i <= 7; i++) {
+        tempValues.push(nextnextdayTemps[`nextnextday${i}temp`]);
+        feelsLikeValues.push(nextnextdayFeels[`nextnextday${i}feelsc`]);
     }
-});
 
-
-
-
-
-//------------------
-
-var nextnextdayTemps = {
-    nextnextday0temp,
-    nextnextday1temp,
-    nextnextday2temp,
-    nextnextday3temp,
-    nextnextday4temp,
-    nextnextday5temp,
-    nextnextday6temp,
-    nextnextday7temp
-};
-
-var nextnextdayFeels = {
-    nextnextday0feelsc,
-    nextnextday1feelsc,
-    nextnextday2feelsc,
-    nextnextday3feelsc,
-    nextnextday4feelsc,
-    nextnextday5feelsc,
-    nextnextday6feelsc,
-    nextnextday7feelsc
-};
-
-var ctx = document.getElementById("weatherChartnextnextday").getContext("2d");
-
-var tempValues = [];
-var feelsLikeValues = [];
-var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
-
-for (var i = 0; i <= 7; i++) {
-    tempValues.push(nextnextdayTemps[`nextnextday${i}temp`]);
-    feelsLikeValues.push(nextnextdayFeels[`nextnextday${i}feelsc`]);
-}
-
-var chart = new Chart(ctx, {
-    type: "line",
-    data: {
-        labels: labels,
-        datasets: [
-            {
-                label: "Temperature in °C",
-                data: tempValues,
-                borderColor: "#4CAF50", // Material Design Green
-                backgroundColor: "rgba(76, 175, 80, 0.2)", // Material Design Green with opacity
-                fill: true
-            },
-            {
-                label: "Feels-Like Temperature",
-                data: feelsLikeValues,
-                borderColor: "#2196F3", // Material Design Blue
-                backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
-                fill: true
-            }
-        ]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
+    var chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Temperature in °C",
+                    data: tempValues,
+                    borderColor: "#4CAF50", // Material Design Green
+                    backgroundColor: "rgba(76, 175, 80, 0.2)", // Material Design Green with opacity
+                    fill: true
+                },
+                {
+                    label: "Feels-Like Temperature",
+                    data: feelsLikeValues,
+                    borderColor: "#2196F3", // Material Design Blue
+                    backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
+                    fill: true
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
             }
         }
-    }
-});
-
-
-
-
-
-
-
-
+    });
 
     /*    var ctx = document.getElementById('weatherChart').getContext('2d');
 

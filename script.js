@@ -319,7 +319,7 @@ function displayWeatherData(data) {
     // For Today
     document.getElementById("today").innerHTML += `
 Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
-<table style="border: 1px solid white; border-collapse: collapse;border-radius:5px;">
+<table>
   <tr>
     <th style="border: 1px solid white;">Time</th>
     <th style="border: 1px solid white;">Temperature</th>
@@ -381,7 +381,7 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
     // For Tomorrow
     document.getElementById("nextday").innerHTML += `
     Tommorow in ${loc}, ${region} <br/> (${nextdaydate}) <br/>
-<table style="border: 1px solid white; border-collapse: collapse;border-radius:5px;">
+<table>
   <tr>
     <th style="border: 1px solid white;">Time</th>
     <th style="border: 1px solid white;">Temperature</th>
@@ -455,7 +455,7 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 
     document.getElementById("nextnextday").innerHTML += `
 Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate})<br/>
-<table style="border: 1px solid white; border-collapse: collapse;border-radius:5px;">
+<table>
   <tr>
     <th style="border: 1px solid white;">Time</th>
     <th style="border: 1px solid white;">Temperature</th>

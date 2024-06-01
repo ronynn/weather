@@ -41,6 +41,7 @@
 
                 background-repeat: no-repeat;
                 background-size: cover;
+                background-attachment: fixed;
             }
 
             h1 {
@@ -98,19 +99,20 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                grid-template-columns: 40% 50%;
+                padding: 8px 8px;
+                margin-left: 12%;
+                margin-right: 12%;
+                margin-top: 2%;
+                margin-bottom: 2%;
                 background: rgba(255, 255, 255, 0.3);
                 border-radius: 20px;
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-
-                margin: 5%;
             }
 
             .left-panel {
                 text-align: right;
                 margin: 5px;
                 padding: 0;
-                font-size: 2em;
+                font-size: 1.8em;
             }
 
             .right-panel {
@@ -119,33 +121,43 @@
                 padding: 0;
             }
 
-            .future,
             .details {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                grid-template-columns: 40% 50%;
+                padding: 8px 8px;
+                border-radius: 20px;
+                background: transparent;
+            }
+
+            .future {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 8px 8px;
+                margin-left: 12%;
+                margin-right: 12%;
+                margin-top: 3%;
+                margin-bottom: 3%;
                 background: rgba(255, 255, 255, 0.2);
                 border-radius: 20px;
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-
-                margin: 5%;
+                --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             }
 
             .div1,
             .div2 {
                 position: relative;
-                width: 50%;
+                width: 40%;
                 text-align: center;
-                font-size: 1.2em;
+                font-size: 1em;
                 padding: 0;
             }
 
             .tabcontent {
                 color: white;
-                padding: 10px 10px;
-                margin-left: 8%;
-                margin-right: 8%;
+                padding: 8px 8px;
+                margin-left: 5%;
+                margin-right: 5%;
                 border: 0px solid #ccc;
                 display: none;
                 position: relative;
@@ -157,15 +169,15 @@
 
             .tablinks {
                 color: white;
-                padding: 4%;
+                padding: 3%;
                 border: 0px solid #ccc;
-                cursor: pointer;
+                margin-top: 3%;
+                margin-bottom: 3%;
                 position: relative;
                 z-index: 1;
                 align-items: center;
                 background: rgba(255, 255, 255, 0.3);
                 border-radius: 12px;
-                margin: 4%;
             }
 
             .tablinks:hover {
@@ -182,14 +194,39 @@
                 color: white;
             }
 
+            /* Dark mode styles */
+            @media (prefers-color-scheme: dark) {
+                .panel,
+                .future,
+                .tabcontent {
+                    background: rgba(255, 255, 255, 0.3);
+                    color: white;
+                    border-color: white;
+                }
+            }
+
+            /* Small screen (thin phone) styles */
+            @media (max-width: 400px) {
+                .panel,
+                .future,
+                .tabcontent {
+                    background: transparent;
+                    padding: 0;
+                    padding: 2px 2px;
+                    margin-left: 0px;
+                    margin-right: 0px;
+                }
+            }
+            table {
+                width: 100%;
+                border: 1px solid white;
+                border-collapse: collapse;
+            }
+
             canvas {
                 background-color: rgba(255, 255, 255, 0.6);
                 margin: 7%%;
                 border-radius: 8px;
-            }
-
-            table {
-                width: 100%;
             }
 
             nav {
@@ -201,65 +238,45 @@
                 backdrop-filter: blur(5px);
                 color: white;
                 display: flex;
-                justify-content: space-between;
-                font-family: "Poppins", sans-serif;
+                justify-content: left;
+
                 z-index: 1000; /* Ensure the nav is above other content */
             }
 
             nav a {
                 display: flex;
                 align-items: center;
-                padding: 8px 12px; /* Adjust padding as needed */
+                padding: 2px 2px 2px 2px; /* Adjust padding as needed */
                 text-decoration: none;
                 color: white;
+
+                margin: 0.8px;
             }
 
             nav a img {
-                width: 35px; /* Adjust image width as needed */
-                margin-right: 5px; /* Add spacing between image and text */
+                padding: 0.2px;
+                width: 22px; /* Adjust image width as needed */
+                margin: 0.2px; /* Add spacing between image and text */
             }
 
-            nav a:hover,
-            button a:hover {
-                background-color: rgba(0, 0, 0, 0.1);
+            nav a:hover
+             {
+                background-color: rgba(255, 255, 255, 0.6);
             }
 
-            button {
-                background: transparent;
-                border: none;
-                color: white;
+            nav a:nth-child(3) {
+                margin-left: auto;
             }
 
-            .button-container,
-            .leftie {
-                display: flex;
-            }
-
-            /* Dark mode styles */
-            @media (prefers-color-scheme: dark) {
-                .panel,
-                .future,
-                .details,
-                .tabcontent {
-                    background: rgba(128, 128, 128, 0.3);
-                    color: white;
-                    border-color: white;
-                }
-            }
-
-            /* Small screen (thin phone) styles */
-            @media (max-width: 600px) {
-                .panel,
-                .future,
-                .details,
-                .tabcontent {
-                    background: none;
-                    padding: 0;
-                }
+            footer {
+                text-align: center;
             }
         </style>
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2749889536957447"
-     crossorigin="anonymous"></script>
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2749889536957447"
+            crossorigin="anonymous"
+        ></script>
     </head>
     <!-- Google tag (gtag.js) -->
     <script
@@ -278,21 +295,16 @@
 
     <body>
         <nav>
-            <div class="leftie">
-                <a href="https://ronynn.github.io/weather"> ronynn weather </a>
-                <!-- <a href="https://github.com/ronynn/weather"
-                ><img src="github-mark-white.svg" style="width: 10%"
-            /></a>-->
-            </div>
+            <a href="https://ronynn.github.io"
+                ><img src="https://github.com/ronynn.png"
+            /></a>
+            <a href="https://ronynn.github.io/weather"> ronynn weather </a>
 
-            <div class="button-container">
-                <button onclick="openTab(event, 'today')">Today</button>
-                <button onclick="openTab(event, 'nextday')">Tomorrow</button>
-                <button onclick="openTab(event, 'nextnextday')">
-                    Overmorrow
-                </button>
-            </div>
+            <a onclick="openTab(event, 'today')">Today</a>
+            <a onclick="openTab(event, 'nextday')">Tomorrow</a>
+            <a onclick="openTab(event, 'nextnextday')">Overmorrow</a>
         </nav>
+
         <br />
         <br />
 
@@ -320,8 +332,6 @@
         <div class="details">
             <p id="detailsnow"></p>
         </div>
-
-        <div id="todaydetails"></div>
 
         <div class="future">
             <div class="div1">
@@ -364,27 +374,43 @@
             </button>
         </div>
 
-        <div id="about">
-            <br />
-            <br />
-            Made by Ronynn: <a href="https://ronynn.github.io">Homepage</a>,
-
-            <a href="https://ronynn.github.io/blog">Blog</a><br />
-            <br />
-            Please give some stars 🌟 at the
+        <footer>
+            <hr />
+            <a
+                href="https://github.com/ronynn/weather"
+                title="Go to GitHub repo"
+                ><img
+                    src="https://img.shields.io/static/v1?label=ronynn&message=weather&color=blue&logo=github"
+                    alt="ronynn - weather"
+            /></a>
+            <a href="https://github.com/ronynn/weather"
+                ><img
+                    src="https://img.shields.io/github/stars/ronynn/weather?style=social"
+                    alt="stars - weather" /></a
+            ><br />
+            <hr />
+            <a href="https://ronynn.github.io/blog">Blog</a>, Please give some
+            stars 🌟 at the
             <a href="https://github.com/ronynn/weather">github repository</a>.
             <br />
-            <br />
-        </div>
-        <div></div>
+        </footer>
+        <script
+            type="text/javascript"
+            id="cookiebanner"
+            src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
+            data-height="25px"
+            data-position="bottom"
+            data-moreinfo="https://ronynn.github.io/blog/privacy"
+            data-message="We use cookies to improve your app experience."
+        ></script>
+        <noscript>
+            <div class="noscript" style="text-align: center">
+                It's not a server based app so you need javascript to run this.
+            </div>
+        </noscript>
     </body>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <noscript>
-        <div class="noscript" style="text-align: center">
-            It's not a server based app so you need javascript to run this.
-        </div>
-    </noscript>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         if (navigator.serviceWorker) {
@@ -406,13 +432,4 @@
         }
     </script>
     <script src="script.js"></script>
-    <script
-        type="text/javascript"
-        id="cookiebanner"
-        src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
-        data-height="25px"
-        data-position="bottom"
-        data-moreinfo="https://ronynn.github.io/blog/privacy"
-        data-message="We use cookies to improve your app experience."
-    ></script>
 </html>

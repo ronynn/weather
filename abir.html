@@ -62,9 +62,62 @@
 
         <link rel="manifest" href="manifest.webmanifest" />
 
-        <title>Ronynn Weather</title>
-        <link rel="stylesheet" href="style.css" />
+        <title>UWU WEATHER</title>
 
+        <link rel="stylesheet" href="style.css" />
+        <style>
+            #favoriteDetails {
+                margin-top: 5px;
+                background: rgba(255, 255, 255, 0);
+                border-radius: 12px;
+                backdrop-filter: blur(10px);
+
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+                border: 0px solid rgba(255, 255, 255, 0.3);
+                width: 100%;
+                align-content: center;
+            }
+
+            #favoriteDetails summary {
+                background: rgba(255, 255, 255, 0.2);
+                color: #fff;
+                padding: 12px;
+                margin: 0px;
+                cursor: pointer;
+                font-size: 18px;
+                outline: none;
+                user-select: none;
+                border-radius: 12px;
+            }
+
+            #favoriteDetails summary:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            #favoriteDetails div {
+                padding: 2px;
+                margin: 6px;
+                background: rgba(255, 255, 255, 0.1);
+                color: #fff;
+                border-radius: 10px;
+                text-align: center;
+            }
+
+            button {
+                margin: 2%;
+                padding: 12px;
+                color: white;
+            }
+
+            #themeButton {
+                margin-top: 20px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                background: rgba(255,255,255,0.3);
+                border-radius: 20px;
+            }
+        </style>
         <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2749889536957447"
@@ -91,16 +144,20 @@
             <a href="https://ronynn.github.io"
                 ><img src="https://github.com/ronynn.png"
             /></a>
-            <a href="https://ronynn.github.io/weather"> ronynn weather </a>
-            
-     
-            
-            
+            <a href="https://ronynn.github.io/weather">Weather (ꈍ ω ꈍ) </a>
+
+            <a id="favoriteButton">Add City to Favourites</a>
         </nav>
 
         <br />
         <br />
-
+        <details id="favoriteDetails" style="margin-top: 5px">
+            <summary>Locations</summary>
+            <div id="favoriteList" style="color: white">
+                <!-- Placeholder for favorite location details -->
+            </div>
+        </details>
+        <br />
 
         <form id="myForm" class="glassmorphism-form">
             <input type="text" id="myInput" placeholder="Enter city name .." />
@@ -108,27 +165,25 @@
 
         <h1 id="loc"></h1>
         <h5 id="date" style="text-align: center"></h5>
-          <h2 id="desc" style="text-align:center"></h2>
+        <center>
+            <h2 id="desc"></h2>
+        </center>
         <div class="panel">
-       
-        	
-          
-                <p id="desc"></p>
-            
+            <center>
+                <h2 id="desc"></h2>
+            </center>
             <div class="left-panel">
                 <h1 id="temp"></h1>
             </div>
             <div class="right-panel" style="font-size: 1.5em">
                 <p id="minmax"></p>
             </div>
-            <br/>
-              <div class="details">
-            <p id="detailsnow"></p>
-        </div>
-            
         </div>
 
-        
+        <div class="details">
+            <p id="detailsnow"></p>
+        </div>
+
         <div class="future">
             <div class="div1">
                 <p id="tomorrow"></p>
@@ -170,7 +225,9 @@
             </button>
         </div>
 
+        
         <footer>
+        	 <button id="themeButton">Change Theme</button>
             <hr />
             <a
                 href="https://github.com/ronynn/weather"
@@ -204,7 +261,7 @@
         </noscript>
     </body>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="abir.js"></script>
 
     <script>
         if (navigator.serviceWorker) {
@@ -212,16 +269,5 @@
                 scope: "/weather/"
             });
         }
-
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            document.getElementById(tabName).style.display = "block";
-       //     document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "center" });
-        }
     </script>
-    <script src="script.js"></script>
 </html>

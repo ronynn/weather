@@ -1,5 +1,6 @@
 var city = "";
 var formattedHours = "";
+var lastFetchedData = "";
 
 document
     .getElementById("myInput")
@@ -285,15 +286,15 @@ function displayWeatherData(data) {
         maxtemp + "&deg;C" + "<hr/>" + mintemp + "&deg;C";
 
     document.getElementById("detailsnow").innerHTML =
-        "Feels like: " +
+        "Feels: " +
         feel +
-        "&degC<br/>Ultraviolet Index: " +
+        "&degC<br/>UV: " +
         uv +
         "<br/>Humidity: " +
         humidity +
         "%<br/>Wind: " +
         wind +
-        "kmph from " +
+        "k/h" +
         dir;
 
     document.getElementById("tomorrow").innerHTML =
@@ -377,7 +378,6 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 </table>
 <br/>
 `;
-
     // For Tomorrow
     document.getElementById("nextday").innerHTML += `
     Tommorow in ${loc}, ${region} <br/> (${nextdaydate}) <br/>
@@ -439,7 +439,6 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 </table>
 <br/>
 `;
-
     /*    document.getElementById("nextday").innerHTML += `
 <p>0 AM: <br/> ${nextday0temp}(${nextday0feelsc})°C, Wind Speed - ${nextday0windspeed} km/h, ${nextday0winddir} <br/> Condition - ${nextday0weatherdesc}</p>
 <p>3 AM: <br/> ${nextday1temp}(${nextday1feelsc})°C, Wind Speed - ${nextday1windspeed} km/h, ${nextday1winddir} <br/> Condition - ${nextday1weatherdesc}</p>
@@ -452,7 +451,6 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 `;
 */
     // For Overmorrow
-
     document.getElementById("nextnextday").innerHTML += `
 Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate})<br/>
 <table>

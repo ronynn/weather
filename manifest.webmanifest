@@ -14,7 +14,7 @@
 		}],
 	"theme_color": "#ffffff",
 	"background_color": "#ffffff",
-	"display": "minimal-ui",
+	"display": "standalone",
 	"scope": "/weather/",
 	"start_url": "/weather/"
 }

@@ -88,19 +88,16 @@
 
     <body>
         <nav>
-            <a href="https://ronynn.github.io"
-                ><img src="https://github.com/ronynn.png"
-            /></a>
             <a href="https://ronynn.github.io/weather"> ronynn weather </a>
-            
-     
-            
-            
+            <a href="https://github.com/ronynn/weather"
+                ><img
+                    src="https://img.shields.io/github/stars/ronynn/weather?style=social"
+                    alt="stars - weather"
+            /></a>
         </nav>
 
         <br />
         <br />
-
 
         <form id="myForm" class="glassmorphism-form">
             <input type="text" id="myInput" placeholder="Enter city name .." />
@@ -108,27 +105,22 @@
 
         <h1 id="loc"></h1>
         <h5 id="date" style="text-align: center"></h5>
-          <h2 id="desc" style="text-align:center"></h2>
+        <h2 id="desc" style="text-align: center"></h2>
         <div class="panel">
-       
-        	
-          
-                <p id="desc"></p>
-            
+            <p id="desc"></p>
+
             <div class="left-panel">
                 <h1 id="temp"></h1>
             </div>
             <div class="right-panel" style="font-size: 1.5em">
                 <p id="minmax"></p>
             </div>
-            <br/>
-              <div class="details">
-            <p id="detailsnow"></p>
-        </div>
-            
+            <br />
+            <div class="details">
+                <p id="detailsnow"></p>
+            </div>
         </div>
 
-        
         <div class="future">
             <div class="div1">
                 <p id="tomorrow"></p>
@@ -141,11 +133,13 @@
         <div id="today" class="tabcontent">
             <canvas id="weatherCharttoday" width="400" height="200"></canvas
             ><br />
+            <div id="today1"></div>
         </div>
 
         <div id="nextday" class="tabcontent">
             <canvas id="weatherChartnextday" width="400" height="200"></canvas
             ><br />
+            <div id="nextday1"></div>
         </div>
 
         <div id="nextnextday" class="tabcontent">
@@ -155,6 +149,7 @@
                 height="200"
             ></canvas
             ><br />
+            <div id="nextnextday1"></div>
         </div>
 
         <div id="buttons">
@@ -170,28 +165,10 @@
             </button>
         </div>
 
-        <footer>
-            <hr />
-            <a
-                href="https://github.com/ronynn/weather"
-                title="Go to GitHub repo"
-                ><img
-                    src="https://img.shields.io/static/v1?label=ronynn&message=weather&color=blue&logo=github"
-                    alt="ronynn - weather"
-            /></a>
-            <a href="https://github.com/ronynn/weather"
-                ><img
-                    src="https://img.shields.io/github/stars/ronynn/weather?style=social"
-                    alt="stars - weather"
-            /></a>
-            <hr />
-
-            <br />
-        </footer>
         <script
             type="text/javascript"
             id="cookiebanner"
-            src="https://cdn.jsdelivr.net/gh/dobarkod/cookie-banner@1.2.2/dist/cookiebanner.min.js"
+            src="cookies.js"
             data-height="25px"
             data-position="bottom"
             data-moreinfo="https://ronynn.github.io/blog/privacy"
@@ -220,7 +197,7 @@
                 tabcontent[i].style.display = "none";
             }
             document.getElementById(tabName).style.display = "block";
-       //     document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "center" });
+            //     document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "center" });
         }
     </script>
     <script src="script.js"></script>

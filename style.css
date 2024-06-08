@@ -232,7 +232,7 @@ nav a {
 
 nav a img {
     padding: 0.2px;
-    width: 22px; /* Adjust image width as needed */
+    width: ; /* Adjust image width as needed */
     margin: 0.2px; /* Add spacing between image and text */
 }
 
@@ -240,7 +240,7 @@ nav a:hover {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
-nav a:nth-child(3) {
+nav a:nth-child(2) {
     margin-left: auto;
 }
 
@@ -249,7 +249,7 @@ footer {
 }
 
 button {
-	background: transparent;
-	backdrop-filter: blur(5px);
-	border:0px;
+    background: transparent;
+    backdrop-filter: blur(5px);
+    border: 0px;
 }

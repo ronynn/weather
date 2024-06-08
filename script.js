@@ -318,7 +318,7 @@ function displayWeatherData(data) {
         nextnextdaymin;
 
     // For Today
-    document.getElementById("today").innerHTML += `
+    document.getElementById("today1").innerHTML = `
 Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 <table>
   <tr>
@@ -379,7 +379,7 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 <br/>
 `;
     // For Tomorrow
-    document.getElementById("nextday").innerHTML += `
+    document.getElementById("nextday1").innerHTML = `
     Tommorow in ${loc}, ${region} <br/> (${nextdaydate}) <br/>
 <table>
   <tr>
@@ -451,7 +451,7 @@ Today in ${loc}, ${region} <br/>(${todaydate}) <br/>
 `;
 */
     // For Overmorrow
-    document.getElementById("nextnextday").innerHTML += `
+    document.getElementById("nextnextday1").innerHTML = `
 Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate})<br/>
 <table>
   <tr>

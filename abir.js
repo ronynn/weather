@@ -146,6 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function displayWeatherData(data) {
     let loc = data.nearest_area[0].areaName[0].value;
     let region = data.nearest_area[0].region[0].value;
+    let timee = data.current_condition[0].localObsDateTime;
 
     let temp = data.current_condition[0].temp_C;
     let maxtemp = data.weather[0].maxtempC;
@@ -356,7 +357,7 @@ function displayWeatherData(data) {
     // ---------------
 
     document.getElementById("loc").innerHTML = loc + ", " + region + "<br/>";
-
+document.getElementById("date").innerHTML = timee;
     document.getElementById("desc").innerHTML = desc;
     document.getElementById("temp").innerHTML = temp + "&deg;C";
     document.getElementById("minmax").innerHTML =

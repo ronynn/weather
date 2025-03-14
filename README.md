@@ -21,8 +21,8 @@ Simply install the app from chrome options and you're all set! Ronynn Weather wi
 ## Roadmap/Ideas
 - [x] Default location selector after opening for first time.
 - [x] Set favourite locations to select or open their graphs all at once (But where should that button be?)
-- [x] Theme selector
-- [ ] Fix design of these buttons
+- [x] Theme selector (removed currently)
+- [x] Fix design of these buttons
 - [ ] Export chart as png, or table as csv (why?)
 - [ ] Send notifications at 9AM everyday of Weather conditions today. (why?)
 

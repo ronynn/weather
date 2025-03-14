@@ -12,6 +12,98 @@ document
       getWeather();
     }
   });
+  
+  
+  
+  
+  
+  document.addEventListener("DOMContentLoaded", function() {
+  const favoriteButton = document.getElementById("favoriteButton");
+  const favoriteDetails = document.getElementById("favoriteDetails");
+  const favoriteList = document.getElementById("favoriteList");
+
+  // Retrieve favorite locations from local storage or initialize with default values
+  const favoriteLocations = JSON.parse(
+    localStorage.getItem("favoriteLocations")
+  ) || ["Paris", "Taki", "Tokyo"];
+
+  // Render favorite locations
+  favoriteLocations.forEach(location => {
+    renderFavoriteLocation(location);
+  });
+
+  // Display weather for the first favorite location or a default city if none
+  const defaultCity =
+    favoriteLocations.length > 0 ? favoriteLocations[0] : "";
+  getWeatherSaved(defaultCity);
+
+  function renderFavoriteLocation(location) {
+    const locationDiv = document.createElement("div");
+    const locationButton = document.createElement("a");
+    locationButton.textContent = location;
+    locationButton.addEventListener("click", () => {
+      getWeatherSaved(location);
+    });
+    const removeButton = document.createElement("button");
+    removeButton.textContent = "Remove";
+    removeButton.addEventListener("click", () => {
+      // Remove the location from favorites
+      const index = favoriteLocations.indexOf(location);
+      if (index !== -1) {
+        favoriteLocations.splice(index, 1);
+        // Update the local storage
+        localStorage.setItem(
+          "favoriteLocations",
+          JSON.stringify(favoriteLocations)
+        );
+        // Update the UI
+        favoriteList.removeChild(locationDiv);
+      }
+    });
+    locationDiv.appendChild(removeButton);
+    locationDiv.appendChild(locationButton);
+    
+    favoriteList.appendChild(locationDiv);
+  }
+
+  favoriteButton.addEventListener("click", function() {
+    const currentCity = city; // Ensure 'city' is defined in your code
+    if (!favoriteLocations.includes(currentCity)) {
+      favoriteLocations.push(currentCity);
+      renderFavoriteLocation(currentCity);
+      // Update the local storage
+      localStorage.setItem(
+        "favoriteLocations",
+        JSON.stringify(favoriteLocations)
+      );
+    }
+  });
+});
+
+
+async function getWeatherSaved(city) {
+  var api_url = `https://wttr.in/${city}?format=j1`;
+  console.log("API URL: " + api_url);
+
+  try {
+    const response = await fetch(api_url);
+    const data = await response.json();
+    lastFetchedData = data;
+    displayWeatherData(data);
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    if (lastFetchedData) {
+      console.log("Displaying last fetched data.");
+      displayWeatherData(lastFetchedData);
+    } else {
+      console.log("No last fetched data available.");
+      // Handle error gracefully or show a message to the user
+    }
+  }
+}
+  
+  
+  
 
 async function getWeather() {
   var api_url = `https://wttr.in/${city}?format=j1`;
@@ -33,6 +125,8 @@ async function getWeather() {
     }
   }
 }
+
+
 
 function displayWeatherData(data) {
   let loc = data.nearest_area[0].areaName[0].value;
@@ -526,16 +620,29 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
     today6feelsc,
     today7feelsc
   };
+  
+  var todayWinds = {
+    today0windspeed,
+    today1windspeed,
+    today2windspeed,
+    today3windspeed,
+    today4windspeed,
+    today5windspeed,
+    today6windspeed,
+    today7windspeed
+  };
 
   var ctx = document.getElementById("weatherCharttoday").getContext("2d");
 
   var tempValues = [];
   var feelsLikeValues = [];
+  var windspeedValues = [ ];
   var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
 
   for (var i = 0; i <= 7; i++) {
     tempValues.push(todayTemps[`today${i}temp`]);
     feelsLikeValues.push(todayFeels[`today${i}feelsc`]);
+    windspeedValues.push(todayWinds[`today${i}windspeed`]);
   }
 
   var chart = new Chart(ctx, {
@@ -555,6 +662,13 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
           borderColor: "#2196F3", // Material Design Blue
           backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
           fill: true
+        },
+        {
+          label: "Wind Speed Kmph",
+          data: windspeedValues,
+          borderColor:"#9C27B0", // Material Design Purple
+          //backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
+          fill: false
         }
       ]
     },
@@ -590,16 +704,29 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
     nextday6feelsc,
     nextday7feelsc
   };
+  
+  var nextdayWinds = {
+    nextday0windspeed,
+    nextday1windspeed,
+    nextday2windspeed,
+    nextday3windspeed,
+    nextday4windspeed,
+    nextday5windspeed,
+    nextday6windspeed,
+    nextday7windspeed
+  };
 
   var ctx = document.getElementById("weatherChartnextday").getContext("2d");
 
   var tempValues = [];
   var feelsLikeValues = [];
+  var windspeedValues = [ ];
   var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
 
   for (var i = 0; i <= 7; i++) {
     tempValues.push(nextdayTemps[`nextday${i}temp`]);
     feelsLikeValues.push(nextdayFeels[`nextday${i}feelsc`]);
+    windspeedValues.push(nextdayWinds[`nextday${i}windspeed`]);
   }
 
   var chart = new Chart(ctx, {
@@ -619,6 +746,13 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
           borderColor: "#2196F3", // Material Design Blue
           backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
           fill: true
+        },
+        {
+          label: "Wind Speed Kmph",
+          data: windspeedValues,
+          borderColor: "#9C27B0", // Material Design Purple
+         // backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
+          fill: false
         }
       ]
     },
@@ -654,6 +788,17 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
     nextnextday6feelsc,
     nextnextday7feelsc
   };
+  
+  var nextnextdayWinds = {
+    nextnextday0windspeed,
+    nextnextday1windspeed,
+    nextnextday2windspeed,
+    nextnextday3windspeed,
+    nextnextday4windspeed,
+    nextnextday5windspeed,
+    nextnextday6windspeed,
+    nextnextday7windspeed
+  };
 
   var ctx = document
     .getElementById("weatherChartnextnextday")
@@ -661,11 +806,13 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
 
   var tempValues = [];
   var feelsLikeValues = [];
+  var windspeedValues = [ ];
   var labels = ["12AM", "3AM", "6AM", "9AM", "12PM", "3PM", "6PM", "9PM"];
 
   for (var i = 0; i <= 7; i++) {
     tempValues.push(nextnextdayTemps[`nextnextday${i}temp`]);
     feelsLikeValues.push(nextnextdayFeels[`nextnextday${i}feelsc`]);
+    windspeedValues.push(nextnextdayWinds[`nextnextday${i}windspeed`]);
   }
 
   var chart = new Chart(ctx, {
@@ -685,6 +832,13 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
           borderColor: "#2196F3", // Material Design Blue
           backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
           fill: true
+        },
+        {
+          label: "Wind Speed Kmph",
+          data: windspeedValues,
+          borderColor: "#9C27B0", // Material Design Purple
+          //backgroundColor: "rgba(33, 150, 243, 0.2)", // Material Design Blue with opacity
+          fill: false
         }
       ]
     },
@@ -699,4 +853,4 @@ Day after tommorow in ${loc}, ${region} <br/> (${nextnextdaydate}) </center><br/
 
 
 }
-getWeather();
+getWeatherSaved();

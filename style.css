@@ -11,10 +11,12 @@ body {
   background-image: var(--bg-image);
 
   color: white;
-
+  font-family: "Roboto", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  padding-left:30%;
+  padding-right:30%;
 }
 
 h1 {
@@ -23,6 +25,12 @@ h1 {
 
 #loc {
   text-align: center;
+  margin:0.5em;
+  font-size:3em;
+}
+
+#loc {
+  min-height: calc(2 * 1.2em); /* Adjust multiplier based on line height */
 }
 
 #other {
@@ -31,14 +39,10 @@ h1 {
 }
 
 #desc {
-  padding: 0px;
-  margin: 5px;
+  --padding: 1em;
+  margin: 1em;
   font-size: 1.8em;
   text-decoration: italic;
-}
-
-#sunalert {
-  margin: 8%;
 }
 
 .glassmorphism-form {
@@ -50,7 +54,7 @@ h1 {
   align-items: center;
   width: 50%;
   margin: 0 auto;
-  margin-top: 15%;
+  margin-top: 10%;
 
   ::placeholder {
     color: white;
@@ -74,34 +78,34 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 8px;
-  margin-left: 12%;
-  margin-right: 12%;
+  --padding: 1em;
+  margin-left: 1.6em;
+  margin-right: 1.6em;
   margin-top: 2%;
   margin-bottom: 2%;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 20px;
-  height: 15vh;
+  min-height: 15vh;
 }
 
 .left-panel {
   text-align: right;
-  margin: 5px;
+  margin: 0.05em;
   padding: 0;
-  font-size: 1.7em;
+  font-size: 4em;
 }
 
 .right-panel {
   text-align: left;
-  margin: 5px;
+  margin: 0.05em;
   padding: 0;
 }
 
 .details {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 8px;
+  align-items: left;
+  justify-content: left;
+  padding: 0.2em 0.2em;
   border-radius: 20px;
   background: transparent;
 }
@@ -111,14 +115,14 @@ h1 {
   align-items: center;
   justify-content: center;
   padding: 8px 8px;
-  margin-left: 12%;
-  margin-right: 12%;
-  margin-top: 0.5%;
-  margin-bottom: 0.5%;
+  margin-left: 1.6em;
+  margin-right: 1.6em;
+  margin-top: 2%;
+  margin-bottom: 2%;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 20px;
   --box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  height: 10vh;
+  min-height: 10vh;
 }
 
 .div1,
@@ -130,11 +134,14 @@ h1 {
   padding: 0;
 }
 
+
+
+
 .tabcontent {
   color: white;
   padding: 8px 8px;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 1.6em;
+  margin-right: 1.6em;
   border: 0px solid #ccc;
   display: none;
   position: relative;
@@ -144,7 +151,7 @@ h1 {
   border-radius: 12px;
 }
 
-.tablinks {
+.tablinks, #favouritebutton {
   color: white;
   padding: 3%;
   border: 0px solid #ccc;
@@ -169,29 +176,19 @@ h1 {
 }
 
 a {
-  text-decoration: ;
   color: white;
+  text-decoration:underline;
 }
 
-/* Dark mode styles */
-@media (prefers-color-scheme: dark) {
 
-  .panel,
-  .future,
-  .tabcontent {
-    background: rgba(255, 255, 255, 0.3);
-    color: white;
-    border-color: white;
+@media (max-width: 800px) {
+
+  body {
+  	padding:0%;
   }
-}
 
-/* Small screen (thin phone) styles */
-@media (max-width: 520px) {
-
-  /*    .future, */
   .tabcontent {
     background: transparent;
-    padding: ;
     --padding: 4% 4%;
     margin-left: 0.3em;
     margin-right: 0.3em;
@@ -200,16 +197,51 @@ a {
 
 table {
   width: 100%;
-  border: 1px solid white;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing:0;
+  border: none;
+  --border: 1px solid white;
+  --border-radius:5px;
+  overflow:hidden;
 }
+
+td, th {
+  border: 1px solid white;
+}
+
+
+/* Remove borders from the first row and last row */
+
+tr:first-child td, tr:first-child th {
+  border-top: none;
+}
+
+tr:last-child td, tr:last-child th {
+  border-bottom: none;
+}
+
+
+td:first-child, th:first-child {
+  border-left: none;
+}
+
+td:last-child, th:last-child {
+  border-right: none;
+}
+
+/* Remove borders from the first and last column */
+
+
 
 canvas {
   background-color: rgba(255, 255, 255, 0.6);
-  margin: 2px;
+  margin: 1em;
   border-radius: 8px;
   display: none;
 }
+
+
+/*
 
 nav {
   position: fixed;
@@ -223,7 +255,7 @@ nav {
   justify-content: left;
 
   z-index: 1000;
-  /* Ensure the nav is above other content */
+  
 }
 
 a {
@@ -234,7 +266,6 @@ nav a {
   display: flex;
   align-items: center;
   padding: 2px 2px 2px 2px;
-  /* Adjust padding as needed */
   text-decoration: none;
   color: white;
 
@@ -244,9 +275,7 @@ nav a {
 nav a img {
   padding: 0.2px;
   width: ;
-  /* Adjust image width as needed */
   margin: 0.2px;
-  /* Add spacing between image and text */
 }
 
 nav a:hover {
@@ -257,20 +286,21 @@ nav a:nth-child(2) {
   margin-left: auto;
 }
 
+*/
+
 footer {
   text-align: center;
-  margin-top: 40%;
-  margin-bottom: 10%;
+  margin-top: 20%;
+  margin-bottom: 5%;
   padding: 10%;
 }
+
 
 button {
   background: transparent;
   backdrop-filter: blur(5px);
-  border: 0px;
-}
-
-th,
-td {
-  border: 1px solid white;
-}
+  border: 2px;
+  margin: 2%;
+  padding: 12px;
+  color: white;
+    }

@@ -53,15 +53,26 @@
   <form id="myForm" class="glassmorphism-form">
     <input type="text" id="myInput" placeholder="Enter city name .." />
   </form>
+<br/>
 
-  <h1 id="loc">&nbsp;</h1>
-  <h3 id="date" style="text-align: center">&nbsp;</h3>
-  <h2 id="desc" style="text-align: center">&nbsp;</h2>
+  <p id="loc">&nbsp;</p>
+  
+<center>
+  <a id="favoriteButton">(Save Searched Location)</a>
+ </center> 
+  
+    
+  
+  <p id="desc" style="text-align: center">&nbsp;</p>
+  <p id="date" style="text-align: center">&nbsp;</p>
+
+
+
   <div class="panel">
     <p id="desc">&nbsp;</p>
 
     <div class="left-panel">
-      <h1 id="temp">&nbsp;</h1>
+      <p id="temp">&nbsp;</p>
     </div>
     <div class="right-panel" style="font-size: 1.5em">
       <p id="minmax">&nbsp;</p>
@@ -80,6 +91,8 @@
       <p id="overmorrow">&nbsp;</p>
     </div>
   </div>
+
+
 
 
   <div id="buttons">
@@ -120,21 +133,36 @@
     <div id="graphs" class="tabcontent">
       Today
       <br />
+      <br/>
       <canvas id="weatherCharttoday" width="400" height="200"></canvas>
       <br />
       Tomorrow
       <br />
+      <br/>
       <canvas id="weatherChartnextday" width="400" height="200"></canvas><br />
       Day after Tomorrow
       <br />
+      <br/>
       <canvas id="weatherChartnextnextday" width="400" height="200"></canvas><br />
     </div>
   </center>
 
 
 
+
+
+  <div id="favoriteDetails" style="margin-top:2%">
+    <center style="font-size:2em;">Saved Locations</center>
+    <div id="favoriteList">
+      <!-- Placeholder for favorite location details -->
+    </div>
+  </div>
+
+
+
+
   <footer>
-    Ronynn Weather, An open source, weather app using wttr API, made with ❤️ by Ronynn.
+    An open source weather app using wttr API, made with ❤️ by Ronynn.
     <br />
     <br />
     <a href="https://github.com/ronynn/ronynn.github.io"><img src="https://img.shields.io/github/stars/ronynn/weather?style=social" width="75" height="20" alt="stars on homepage repo" /></a>
@@ -158,7 +186,7 @@
       tabcontent[i].style.display = "none";
     }
     document.getElementById(tabName).style.display = "block";
-    //     document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "center" });
+        document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "end" });
   }
 
 </script>

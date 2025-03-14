@@ -12,8 +12,8 @@
 			"sizes": "512x512",
 			"type": "image/png"
 		}],
-	"theme_color": "#ffffff",
-	"background_color": "#ffffff",
+	"theme_color": "#c850c0",
+	"background_color": "#4158d0",
 	"display": "standalone",
 	"scope": "/weather/",
 	"start_url": "/weather/"

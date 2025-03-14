@@ -1,274 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="keywords" content="weather,open-source,web-app,pwa" />
-        <meta
-            name="description"
-            content="Open source mobile web app using wttr
-        api and glassmorphism aesthetics for desktop and mobile."
-        />
-        <meta
-            name="subject"
-            content="Open source mobile web app using wttr
-        api and glassmorphism aesthetics for desktop and mobile"
-        />
-        <meta name="copyright" content="ronynn" />
-        <meta name="language" content="ES" />
-        <meta name="robots" content="index,follow" />
-        <meta name="revised" content="Thursday, May 31st, 2024, 5:15 pm" />
-        <meta name="abstract" content="" />
-        <meta name="topic" content="Weather App" />
-        <meta name="summary" content="" />
-        <meta name="Classification" content="App" />
-        <meta name="author" content="ronynn" />
-        <meta name="designer" content="ronynn" />
-        <meta name="reply-to" content="ronynn" />
-        <meta name="owner" content="ronynn" />
-        <meta name="url" content="https://ronynn.github.io" />
-        <meta name="identifier-URL" content="https://ronynn.github.io" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="pagename" content="ronynn weather" />
-        <meta name="category" content="webapp" />
+  <meta name="keywords" content="weather,open-source,web-app,pwa" />
+  <meta name="description" content="Open source mobile web app using wttr
+        api and glassmorphism aesthetics for desktop and mobile." />
+  <meta name="subject" content="Open source mobile web app using wttr
+        api and glassmorphism aesthetics for desktop and mobile" />
+  <meta name="copyright" content="ronynn" />
+  <meta name="language" content="ES" />
+  <meta name="robots" content="index,follow" />
+  <meta name="revised" content="Thursday, May 31st, 2024, 5:15 pm" />
+  <meta name="abstract" content="" />
+  <meta name="topic" content="Weather App" />
+  <meta name="summary" content="" />
+  <meta name="Classification" content="App" />
+  <meta name="author" content="ronynn" />
+  <meta name="designer" content="ronynn" />
+  <meta name="reply-to" content="ronynn" />
+  <meta name="owner" content="ronynn" />
+  <meta name="url" content="https://ronynn.github.io" />
+  <meta name="identifier-URL" content="https://ronynn.github.io" />
 
-        <meta name="rating" content="General" />
+  <meta name="pagename" content="ronynn weather" />
+  <meta name="category" content="webapp" />
 
-        <meta
-            name="subtitle"
-            content="Open source weather app using wttr api"
-        />
-        <meta name="target" content="all" />
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
+  <meta name="rating" content="General" />
 
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-        />
+  <meta name="subtitle" content="Open source weather app using wttr api" />
+  <meta name="target" content="all" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
 
-        <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
-        <title>UWU WEATHER</title>
+  <link rel="manifest" href="manifest.webmanifest" />
 
-        <link rel="stylesheet" href="style.css" />
-        <style>
-            #favoriteDetails {
-                margin-top: 5px;
-                background: rgba(255, 255, 255, 0);
-                border-radius: 12px;
-                backdrop-filter: blur(10px);
+  <title>UWU WEATHER</title>
 
-                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-                border: 0px solid rgba(255, 255, 255, 0.3);
-                width: 100%;
-                align-content: center;
-            }
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    #favoriteDetails {
+      margin-top: 5px;
+      background: rgba(255, 255, 255, 0);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
 
-            #favoriteDetails summary {
-                background: rgba(255, 255, 255, 0.2);
-                color: #fff;
-                padding: 12px;
-                margin: 0px;
-                cursor: pointer;
-                font-size: 18px;
-                outline: none;
-                user-select: none;
-                border-radius: 12px;
-            }
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+      border: 0px solid rgba(255, 255, 255, 0.3);
+      width: 100%;
+      align-content: center;
+    }
 
-            #favoriteDetails summary:hover {
-                background: rgba(255, 255, 255, 0.3);
-            }
+    #favoriteDetails summary {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 12px;
+      margin: 0px;
+      cursor: pointer;
+      font-size: 18px;
+      outline: none;
+      user-select: none;
+      border-radius: 12px;
+    }
 
-            #favoriteDetails div {
-                padding: 2px;
-                margin: 6px;
-                background: rgba(255, 255, 255, 0.1);
-                color: #fff;
-                border-radius: 10px;
-                text-align: center;
-            }
+    #favoriteDetails summary:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
 
-            button {
-                margin: 2%;
-                padding: 12px;
-                color: white;
-            }
+    #favoriteDetails div {
+      padding: 2px;
+      margin: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 10px;
+      text-align: center;
+    }
 
-            #themeButton {
-                margin-top: 20px;
-                padding: 10px 20px;
-                font-size: 16px;
-                cursor: pointer;
-                background: rgba(255,255,255,0.3);
-                border-radius: 20px;
-            }
-        </style>
-        <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2749889536957447"
-            crossorigin="anonymous"
-        ></script>
-    </head>
-    <!-- Google tag (gtag.js) -->
-    <script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-MDG8SVY9GB"
-    ></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
+    button {
+      margin: 2%;
+      padding: 12px;
+      color: white;
+    }
 
-        gtag("config", "G-MDG8SVY9GB");
-    </script>
+    #themeButton {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 20px;
+    }
 
-    <body>
-        <nav>
-         
-              
-     
-            <a href="https://ronynn.github.io/weather">Weather (ꈍ ω ꈍ) </a>
+  </style>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2749889536957447" crossorigin="anonymous"></script>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MDG8SVY9GB"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
 
-            <a id="favoriteButton">Add City to Favourites</a>
-        </nav>
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
 
-        <br />
-        <br />
-        <details id="favoriteDetails" style="margin-top: 5px">
-            <summary>Locations</summary>
-            <div id="favoriteList" style="color: white">
-                <!-- Placeholder for favorite location details -->
-            </div>
-        </details>
-        <br />
+  gtag("config", "G-MDG8SVY9GB");
 
-        <form id="myForm" class="glassmorphism-form">
-            <input type="text" id="myInput" placeholder="Enter city name .." />
-        </form>
+</script>
 
-        <h1 id="loc"></h1>
-        <h5 id="date" style="text-align: center"></h5>
-        <center>
-            <h2 id="desc"></h2>
-        </center>
-        <div class="panel">
-            <center>
-                <h2 id="desc"></h2>
-            </center>
-            <div class="left-panel">
-                <h1 id="temp"></h1>
-            </div>
-            <div class="right-panel" style="font-size: 1.5em">
-                <p id="minmax"></p>
-            </div>
-        </div>
+<body>
+  <nav>
 
-        <div class="details">
-            <p id="detailsnow"></p>
-        </div>
 
-        <div class="future">
-            <div class="div1">
-                <p id="tomorrow"></p>
-            </div>
-            <div class="div2">
-                <p id="overmorrow"></p>
-            </div>
-        </div>
 
-        <div id="today" class="tabcontent">
-            <canvas id="weatherCharttoday" width="400" height="200"></canvas
-            ><br />
-        </div>
+    <a href="https://ronynn.github.io/weather">Weather (ꈍ ω ꈍ) </a>
 
-        <div id="nextday" class="tabcontent">
-            <canvas id="weatherChartnextday" width="400" height="200"></canvas
-            ><br />
-        </div>
+    <a id="favoriteButton">Add City to Favourites</a>
+  </nav>
 
-        <div id="nextnextday" class="tabcontent">
-            <canvas
-                id="weatherChartnextnextday"
-                width="400"
-                height="200"
-            ></canvas
-            ><br />
-        </div>
+  <br />
+  <br />
+  <details id="favoriteDetails" style="margin-top: 5px">
+    <summary>Locations</summary>
+    <div id="favoriteList" style="color: white">
+      <!-- Placeholder for favorite location details -->
+    </div>
+  </details>
+  <br />
 
-        <div id="buttons">
-            <button class="tablinks" onclick="openTab(event, 'today')">
-                Today
-            </button>
+  <form id="myForm" class="glassmorphism-form">
+    <input type="text" id="myInput" placeholder="Enter city name .." />
+  </form>
 
-            <button class="tablinks" onclick="openTab(event, 'nextday')">
-                Tomorrow
-            </button>
-            <button class="tablinks" onclick="openTab(event, 'nextnextday')">
-                Overmorrow
-            </button>
-        </div>
+  <h1 id="loc"></h1>
+  <h5 id="date" style="text-align: center"></h5>
+  <center>
+    <h2 id="desc"></h2>
+  </center>
+  <div class="panel">
+    <center>
+      <h2 id="desc"></h2>
+    </center>
+    <div class="left-panel">
+      <h1 id="temp"></h1>
+    </div>
+    <div class="right-panel" style="font-size: 1.5em">
+      <p id="minmax"></p>
+    </div>
+  </div>
 
-        
-        <footer>
-        	 <button id="themeButton">Change Theme</button>
-            <hr />
-            <a
-                href="https://github.com/ronynn/weather"
-                title="Go to GitHub repo"
-                ><img
-                    src="https://img.shields.io/static/v1?label=ronynn&message=weather&color=blue&logo=github"
-                    alt="ronynn - weather"
-            /></a>
-            <a href="https://github.com/ronynn/weather"
-                ><img
-                    src="https://img.shields.io/github/stars/ronynn/weather?style=social"
-                    alt="stars - weather"
-            /></a>
-            <hr />
+  <div class="details">
+    <p id="detailsnow"></p>
+  </div>
 
-            <br />
-        </footer>
-        <script
-            type="text/javascript"
-            id="cookiebanner"
-            src="cookies.js"
-            data-height="25px"
-            data-position="bottom"
-            data-moreinfo="https://ronynn.github.io/blog/privacy"
-            data-message="We use cookies to improve your app experience."
-        ></script>
-        <noscript>
-            <div class="noscript" style="text-align: center">
-                It's not a server based app so you need javascript to run this.
-            </div>
-        </noscript>
-    </body>
+  <div class="future">
+    <div class="div1">
+      <p id="tomorrow"></p>
+    </div>
+    <div class="div2">
+      <p id="overmorrow"></p>
+    </div>
+  </div>
 
-    <script src="abir.js"></script>
+  <div id="today" class="tabcontent">
+    <canvas id="weatherCharttoday" width="400" height="200"></canvas><br />
+  </div>
 
-    <script>
-        if (navigator.serviceWorker) {
-            navigator.serviceWorker.register("/weather/sw.js", {
-                scope: "/weather/"
-            });
-        }
-    </script>
+  <div id="nextday" class="tabcontent">
+    <canvas id="weatherChartnextday" width="400" height="200"></canvas><br />
+  </div>
+
+  <div id="nextnextday" class="tabcontent">
+    <canvas id="weatherChartnextnextday" width="400" height="200"></canvas><br />
+  </div>
+
+  <div id="buttons">
+    <button class="tablinks" onclick="openTab(event, 'today')">
+      Today
+    </button>
+
+    <button class="tablinks" onclick="openTab(event, 'nextday')">
+      Tomorrow
+    </button>
+    <button class="tablinks" onclick="openTab(event, 'nextnextday')">
+      Overmorrow
+    </button>
+  </div>
+
+
+  <footer>
+    <button id="themeButton">Change Theme</button>
+    <hr />
+    <a href="https://github.com/ronynn/weather" title="Go to GitHub repo"><img src="https://img.shields.io/static/v1?label=ronynn&message=weather&color=blue&logo=github" alt="ronynn - weather" /></a>
+    <a href="https://github.com/ronynn/weather"><img src="https://img.shields.io/github/stars/ronynn/weather?style=social" alt="stars - weather" /></a>
+    <hr />
+
+    <br />
+  </footer>
+  <script type="text/javascript" id="cookiebanner" src="cookies.js" data-height="25px" data-position="bottom" data-moreinfo="https://ronynn.github.io/blog/privacy" data-message="We use cookies to improve your app experience."></script>
+  <noscript>
+    <div class="noscript" style="text-align: center">
+      It's not a server based app so you need javascript to run this.
+    </div>
+  </noscript>
+</body>
+
+<script src="abir.js"></script>
+
+<script>
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register("/weather/sw.js", {
+      scope: "/weather/"
+    });
+  }
+
+</script>
+
 </html>

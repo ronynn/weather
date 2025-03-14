@@ -1,178 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="keywords" content="weather,open-source,web-app,pwa" />
-        <meta
-            name="description"
-            content="Open source mobile web app using wttr
-        api and glassmorphism aesthetics for desktop and mobile."
-        />
-        <meta
-            name="subject"
-            content="Open source mobile web app using wttr
-        api and glassmorphism aesthetics for desktop and mobile"
-        />
-        <meta name="copyright" content="ronynn" />
-        <meta name="language" content="ES" />
-        <meta name="robots" content="index,follow" />
-        <meta name="revised" content="Sunday, June 9th, 2024, 5:15 pm" />
-        <meta name="abstract" content="" />
-        <meta name="topic" content="Weather App" />
-        <meta name="summary" content="" />
-        <meta name="Classification" content="App" />
-        <meta name="author" content="ronynn" />
-        <meta name="designer" content="ronynn" />
-        <meta name="reply-to" content="ronynn" />
-        <meta name="owner" content="ronynn" />
-        <meta name="url" content="https://ronynn.github.io" />
-        <meta name="identifier-URL" content="https://ronynn.github.io" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <meta name="pagename" content="ronynn weather" />
-        <meta name="category" content="webapp" />
+  <meta name="keywords" content="weather,open-source,web-app,pwa" />
+  <meta name="description" content="Open source mobile web app using wttr
+        api and glassmorphism aesthetics for desktop and mobile." />
+  <meta name="subject" content="Open source mobile web app using wttr
+        api and glassmorphism aesthetics for desktop and mobile" />
+  <meta name="copyright" content="ronynn" />
+  <meta name="language" content="ES" />
+  <meta name="robots" content="index,follow" />
+  <meta name="revised" content="Sunday, June 9th, 2024, 5:15 pm" />
+  <meta name="abstract" content="" />
+  <meta name="topic" content="Weather App" />
+  <meta name="summary" content="" />
+  <meta name="Classification" content="App" />
+  <meta name="author" content="ronynn" />
+  <meta name="designer" content="ronynn" />
+  <meta name="reply-to" content="ronynn" />
+  <meta name="owner" content="ronynn" />
+  <meta name="url" content="https://ronynn.github.io" />
+  <meta name="identifier-URL" content="https://ronynn.github.io" />
 
-        <meta name="rating" content="General" />
+  <meta name="pagename" content="ronynn weather" />
+  <meta name="category" content="webapp" />
 
-        <meta
-            name="subtitle"
-            content="Open source weather app using wttr api"
-        />
-        <meta name="target" content="all" />
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
+  <meta name="rating" content="General" />
 
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-        />
+  <meta name="subtitle" content="Open source weather app using wttr api" />
+  <meta name="target" content="all" />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
 
-        <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 
-        <title>Ronynn Weather</title>
-        <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.webmanifest" />
 
-    </head>
-    
-    <body>
-        <nav>
-            <a href="https://ronynn.github.io/weather"> ronynn weather </a>
-            <a href="https://github.com/ronynn/weather"
-                ><img
-                    src="https://img.shields.io/github/stars/ronynn/weather?style=social"
-                    alt="stars - weather"
-            /></a>
-        </nav>
+  <title>Ronynn Weather</title>
+  <link rel="stylesheet" href="normalize.css" />
+  <link rel="stylesheet" href="style.css" />
 
-        <br />
-        <br />
+</head>
 
-        <form id="myForm" class="glassmorphism-form">
-            <input type="text" id="myInput" placeholder="Enter city name .." />
-        </form>
+<body>
 
-        <h1 id="loc">&nbsp;</h1>
-        <h3 id="date" style="text-align: center">&nbsp;</h3>
-        <h2 id="desc" style="text-align: center">&nbsp;</h2>
-        <div class="panel">
-            <p id="desc"></p>
 
-            <div class="left-panel">
-                <h1 id="temp"></h1>
-            </div>
-            <div class="right-panel" style="font-size: 1.5em">
-                <p id="minmax"></p>
-            </div>
-            <br />
-            <div class="details">
-                <p id="detailsnow"></p>
-            </div>
-        </div>
+  <form id="myForm" class="glassmorphism-form">
+    <input type="text" id="myInput" placeholder="Enter city name .." />
+  </form>
 
-        <div class="future">
-            <div class="div1">
-                <p id="tomorrow"></p>
-            </div>
-            <div class="div2">
-                <p id="overmorrow"></p>
-            </div>
-        </div>
+  <h1 id="loc">&nbsp;</h1>
+  <h3 id="date" style="text-align: center">&nbsp;</h3>
+  <h2 id="desc" style="text-align: center">&nbsp;</h2>
+  <div class="panel">
+    <p id="desc">&nbsp;</p>
 
-        <div id="today" class="tabcontent">
-            <canvas id="weatherCharttoday" width="400" height="200"></canvas
-            ><br />
-            <div id="today1"></div>
-        </div>
+    <div class="left-panel">
+      <h1 id="temp">&nbsp;</h1>
+    </div>
+    <div class="right-panel" style="font-size: 1.5em">
+      <p id="minmax">&nbsp;</p>
+    </div>
+    <br />
+    <div class="details">
+      <p id="detailsnow">&nbsp;</p>
+    </div>
+  </div>
 
-        <div id="nextday" class="tabcontent">
-            <canvas id="weatherChartnextday" width="400" height="200"></canvas
-            ><br />
-            <div id="nextday1"></div>
-        </div>
+  <div class="future">
+    <div class="div1">
+      <p id="tomorrow">&nbsp;</p>
+    </div>
+    <div class="div2">
+      <p id="overmorrow">&nbsp;</p>
+    </div>
+  </div>
 
-        <div id="nextnextday" class="tabcontent">
-            <canvas
-                id="weatherChartnextnextday"
-                width="400"
-                height="200"
-            ></canvas
-            ><br />
-            <div id="nextnextday1"></div>
-        </div>
 
-        <div id="buttons">
-            <button class="tablinks" onclick="openTab(event, 'today')">
-                Today
-            </button>
+  <div id="buttons">
+    <button class="tablinks" onclick="openTab(event, 'today')">
+      Today
+    </button>
 
-            <button class="tablinks" onclick="openTab(event, 'nextday')">
-                Tomorrow
-            </button>
-            <button class="tablinks" onclick="openTab(event, 'nextnextday')">
-                Overmorrow
-            </button>
-        </div>
+    <button class="tablinks" onclick="openTab(event, 'nextday')">
+      Tomorrow
+    </button>
+    <button class="tablinks" onclick="openTab(event, 'nextnextday')">
+      Overmorrow
+    </button>
 
-    
-        <noscript>
-            <div class="noscript" style="text-align: center">
-                It's not a server based app so you need javascript to run this.
-            </div>
-        </noscript>
-    </body>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <button class="tablinks" onclick="openTab(event, 'graphs')">
+      Graphs
+    </button>
 
-    <script>
-        if (navigator.serviceWorker) {
-            navigator.serviceWorker.register("/weather/sw.js", {
-                scope: "/weather/"
-            });
-        }
+  </div>
 
-        function openTab(evt, tabName) {
-            var i, tabcontent, tablinks;
-            tabcontent = document.getElementsByClassName("tabcontent");
-            for (i = 0; i < tabcontent.length; i++) {
-                tabcontent[i].style.display = "none";
-            }
-            document.getElementById(tabName).style.display = "block";
-            //     document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-    </script>
-    <script src="script.js"></script>
+  <div id="today" class="tabcontent">
+
+    <div id="today1"></div>
+  </div>
+
+  <div id="nextday" class="tabcontent">
+
+    <div id="nextday1"></div>
+  </div>
+
+  <div id="nextnextday" class="tabcontent">
+
+    <div id="nextnextday1"></div>
+  </div>
+
+  <center>
+    <div id="graphs" class="tabcontent">
+      Today
+      <br />
+      <canvas id="weatherCharttoday" width="400" height="200"></canvas>
+      <br />
+      Tomorrow
+      <br />
+      <canvas id="weatherChartnextday" width="400" height="200"></canvas><br />
+      Day after Tomorrow
+      <br />
+      <canvas id="weatherChartnextnextday" width="400" height="200"></canvas><br />
+    </div>
+  </center>
+
+
+
+  <footer>
+    Ronynn Weather, An open source, weather app using wttr API, made with ❤️ by Ronynn.
+    <br />
+    <br />
+    <a href="https://github.com/ronynn/ronynn.github.io"><img src="https://img.shields.io/github/stars/ronynn/weather?style=social" width="75" height="20" alt="stars on homepage repo" /></a>
+  </footer>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.register("/weather/sw.js", {
+      scope: "/weather/"
+    });
+  }
+
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    document.getElementById(tabName).style.display = "block";
+    //     document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+</script>
+<script src="script.js"></script>
+
+<script data-goatcounter="https://ronynn.goatcounter.com/count" async src="//gc.zgo.at/count.js">
+</script>
+<noscript>
+  <img src="https://ronynn.goatcounter.com/count?p=/weatherNoscript">
+  <div class="noscript" style="text-align: center;color:white;">
+    Please consider turning on javascript to run this.
+  </div>
+</noscript>
+
 </html>

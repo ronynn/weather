@@ -53,16 +53,16 @@
   <form id="myForm" class="glassmorphism-form">
     <input type="text" id="myInput" placeholder="Enter city name .." />
   </form>
-<br/>
+  <br />
 
-  <p id="loc">&nbsp;</p>
-  
-<center>
-  <a id="favoriteButton">(Save Searched Location)</a>
- </center> 
-  
-    
-  
+  <p id="loc"></p>
+
+  <center>
+    <a id="favoriteButton">(Save Searched Location)</a>
+  </center>
+
+
+
   <p id="desc" style="text-align: center">&nbsp;</p>
   <p id="date" style="text-align: center">&nbsp;</p>
 
@@ -130,21 +130,7 @@
   </div>
 
   <center>
-    <div id="graphs" class="tabcontent">
-      Today
-      <br />
-      <br/>
-      <canvas id="weatherCharttoday" width="400" height="200"></canvas>
-      <br />
-      Tomorrow
-      <br />
-      <br/>
-      <canvas id="weatherChartnextday" width="400" height="200"></canvas><br />
-      Day after Tomorrow
-      <br />
-      <br/>
-      <canvas id="weatherChartnextnextday" width="400" height="200"></canvas><br />
-    </div>
+    <div id="graphs" class="tabcontent"></div>
   </center>
 
 
@@ -170,23 +156,11 @@
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
   if (navigator.serviceWorker) {
     navigator.serviceWorker.register("/weather/sw.js", {
       scope: "/weather/"
     });
-  }
-
-  function openTab(evt, tabName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-    document.getElementById(tabName).style.display = "block";
-        document.getElementById(tabName).scrollIntoView({ behavior: "smooth", block: "end" });
   }
 
 </script>

@@ -15,8 +15,8 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  padding-left:30%;
-  padding-right:30%;
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 h1 {
@@ -25,12 +25,13 @@ h1 {
 
 #loc {
   text-align: center;
-  margin:0.5em;
-  font-size:3em;
+  margin: 0.5em;
+  font-size: 3em;
 }
 
 #loc {
-  min-height: calc(2 * 1.2em); /* Adjust multiplier based on line height */
+  min-height: calc(2 * 1.2em);
+  /* Adjust multiplier based on line height */
 }
 
 #other {
@@ -151,7 +152,8 @@ h1 {
   border-radius: 12px;
 }
 
-.tablinks, #favouritebutton {
+.tablinks,
+#favouritebutton {
   color: white;
   padding: 3%;
   border: 0px solid #ccc;
@@ -177,14 +179,14 @@ h1 {
 
 a {
   color: white;
-  text-decoration:underline;
+  text-decoration: underline;
 }
 
 
 @media (max-width: 800px) {
 
   body {
-  	padding:0%;
+    padding: 0%;
   }
 
   .tabcontent {
@@ -198,34 +200,39 @@ a {
 table {
   width: 100%;
   border-collapse: separate;
-  border-spacing:0;
+  border-spacing: 0;
   border: none;
   --border: 1px solid white;
-  --border-radius:5px;
-  overflow:hidden;
+  --border-radius: 5px;
+  overflow: hidden;
 }
 
-td, th {
+td,
+th {
   border: 1px solid white;
 }
 
 
 /* Remove borders from the first row and last row */
 
-tr:first-child td, tr:first-child th {
+tr:first-child td,
+tr:first-child th {
   border-top: none;
 }
 
-tr:last-child td, tr:last-child th {
+tr:last-child td,
+tr:last-child th {
   border-bottom: none;
 }
 
 
-td:first-child, th:first-child {
+td:first-child,
+th:first-child {
   border-left: none;
 }
 
-td:last-child, th:last-child {
+td:last-child,
+th:last-child {
   border-right: none;
 }
 
@@ -303,4 +310,4 @@ button {
   margin: 2%;
   padding: 12px;
   color: white;
-    }
+}

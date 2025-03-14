@@ -13,7 +13,7 @@
 			"type": "image/png"
 		}],
 	"theme_color": "#c850c0",
-	"background_color": "#4158d0",
+	"background_color": "#c850c0",
 	"display": "standalone",
 	"scope": "/weather/",
 	"start_url": "/weather/"

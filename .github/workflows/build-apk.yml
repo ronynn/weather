@@ -25,6 +25,18 @@ jobs:
         with:
           targets: aarch64-linux-android
 
+      # ---- Cache Cargo registry and build output ----
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
       - name: Install Tauri CLI
         run: cargo install tauri-cli --version ^2.0.0
 
@@ -34,6 +46,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      # ---- Android SDK (no cache) ----
       - name: Install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
@@ -52,6 +65,7 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
+      # ---- Initialise Tauri (non‑interactive) ----
       - name: Clean previous src-tauri
         run: rm -rf src-tauri
 
@@ -59,10 +73,18 @@ jobs:
         run: |
           printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
 
+      # ---- Fix bundle identifier (must be unique) ----
+      - name: Set custom bundle identifier
+        run: |
+          # Change the identifier in tauri.conf.json
+          jq '.tauri.bundle.identifier = "com.myapp.tester"' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
+        # If jq is not installed, you can use sed (fallback)
+        # sed -i 's/"identifier": "com.tauri.dev"/"identifier": "com.myapp.tester"/' src-tauri/tauri.conf.json
+
       - name: Initialize Android
         run: cargo tauri android init
 
-      - name: Build APK
+      - name: Build APK (arm64)
         run: cargo tauri android build --apk --target aarch64
 
       - name: Upload APK artifact

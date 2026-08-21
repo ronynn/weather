@@ -25,17 +25,17 @@ jobs:
         with:
           targets: aarch64-linux-android
 
-      # ---- Cargo cache (reasonable size, saves compile time) ----
+      # ---- Cargo cache (includes binaries and build artifacts) ----
       - name: Cache Cargo
         uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
+            ~/.cargo/bin
+            src-tauri/target
+          # Use a static key (no hash) because we don't have Cargo.lock yet
+          key: ${{ runner.os }}-cargo-v1
 
       - name: Install Tauri CLI
         run: cargo install tauri-cli --version ^2.0.0
@@ -46,7 +46,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # ---- Android SDK (not cached, to keep storage low) ----
+      # ---- Android SDK (not cached to keep storage low) ----
       - name: Install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
@@ -65,18 +65,17 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
-      # ---- Init Tauri (non‑interactive) ----
-      - name: Clean previous src-tauri
-        run: rm -rf src-tauri
-
-      - name: Initialize Tauri
+      # ---- Conditionally initialise Tauri (only if src-tauri doesn't exist) ----
+      - name: Initialize Tauri (if not exists)
         run: |
-          printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
+          if [ ! -d "src-tauri" ]; then
+            printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
+          fi
 
-      # ---- Replace default identifier with a unique one (using sed) ----
-      - name: Fix bundle identifier
+      # ---- Patch config using jq (robust, no sed pitfalls) ----
+      - name: Patch tauri.conf.json
         run: |
-          sed -i 's/"identifier": "com.tauri.dev"/"identifier": "com.myapp.tester"/' src-tauri/tauri.conf.json
+          jq '.build.beforeDevCommand = "" | .build.beforeBuildCommand = "" | .bundle.identifier = "com.myapp.tester"' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
 
       - name: Initialize Android
         run: cargo tauri android init

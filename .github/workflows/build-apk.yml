@@ -1,0 +1,83 @@
+name: Build Tauri Android APK (arm64)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:   # manual trigger
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ---- Setup Node.js (required for Tauri CLI) ----
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      # ---- Setup Rust ----
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android   # for arm64 APK
+
+      # ---- Install Tauri CLI ----
+      - name: Install Tauri CLI
+        run: cargo install tauri-cli --version ^2.0.0
+
+      # ---- Setup Java (required for Android) ----
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      # ---- Install Android SDK + NDK ----
+      - name: Install Android command-line tools
+        run: |
+          wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+          unzip commandlinetools-linux-*.zip
+          mkdir -p $HOME/android-sdk/cmdline-tools
+          mv cmdline-tools $HOME/android-sdk/cmdline-tools/latest
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
+
+      - name: Accept licenses and install components
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.2" "ndk;25.2.9519653"
+
+      - name: Set NDK environment
+        run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
+
+      # ---- Initialise Tauri project (non‑interactive) ----
+      - name: Initialize Tauri
+        run: |
+          cargo tauri init \
+            --app-name MyApp \
+            --window-title MyApp \
+            --dist-dir .. \
+            --before-dev-command "" \
+            --before-build-command ""
+
+      # ---- Initialise Android target ----
+      - name: Initialize Android
+        run: cargo tauri android init
+
+      # ---- Build ARM64 APK ----
+      - name: Build APK
+        run: cargo tauri android build --apk --target aarch64-linux-android
+
+      # ---- Upload the APK ----
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tauri-arm64-apk
+          path: src-tauri/gen/android/app/build/outputs/apk/**/app-arm64-v8a-release.apk

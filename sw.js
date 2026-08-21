@@ -1,11 +1,13 @@
 var GHPATH = "/weather";
 var APP_PREFIX = "weather_";
-var VERSION = "version_0.08";
+var VERSION = "version_0.10";
 var URLS = [
   `${GHPATH}/`,
   `${GHPATH}/index.html`,
   `${GHPATH}/manifest.webmanifest`,
   `${GHPATH}/script.js`,
+  `${GHPATH}/style.css`,
+  `${GHPATH}/normalize.css`,
 
 
 ];

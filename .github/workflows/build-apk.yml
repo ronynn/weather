@@ -25,7 +25,7 @@ jobs:
         with:
           targets: aarch64-linux-android
 
-      # ---- Cargo cache (only registry & build output, ~500MB) ----
+      # ---- Cargo cache (reasonable size, saves compile time) ----
       - name: Cache Cargo
         uses: actions/cache@v4
         with:
@@ -46,7 +46,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # ---- Android SDK (no cache to keep storage low) ----
+      # ---- Android SDK (not cached, to keep storage low) ----
       - name: Install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
@@ -65,7 +65,7 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
-      # ---- Init Tauri (non-interactive) ----
+      # ---- Init Tauri (non‑interactive) ----
       - name: Clean previous src-tauri
         run: rm -rf src-tauri
 
@@ -73,13 +73,10 @@ jobs:
         run: |
           printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
 
-      # ---- Fix bundle identifier (must be unique) ----
-      - name: Set custom bundle identifier
+      # ---- Replace default identifier with a unique one (using sed) ----
+      - name: Fix bundle identifier
         run: |
-          # Correctly target .bundle.identifier (v2 schema)
-          jq '.bundle.identifier = "com.myapp.tester"' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
-        # If jq isn't available (it is), fallback to sed:
-        # sed -i 's/"identifier": "com.tauri.dev"/"identifier": "com.myapp.tester"/' src-tauri/tauri.conf.json
+          sed -i 's/"identifier": "com.tauri.dev"/"identifier": "com.myapp.tester"/' src-tauri/tauri.conf.json
 
       - name: Initialize Android
         run: cargo tauri android init

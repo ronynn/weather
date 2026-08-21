@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:   # manual trigger
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ---- Setup Node.js (required for Tauri CLI) ----
+      # ---- Setup Node.js (needed for Tauri CLI) ----
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,13 +25,13 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: aarch64-linux-android   # for arm64 APK
+          targets: aarch64-linux-android
 
       # ---- Install Tauri CLI ----
       - name: Install Tauri CLI
         run: cargo install tauri-cli --version ^2.0.0
 
-      # ---- Setup Java (required for Android) ----
+      # ---- Setup Java ----
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -57,15 +57,15 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
-      # ---- Initialise Tauri project (non‑interactive) ----
+      # ---- Remove any previous tauri project (clean slate) ----
+      - name: Clean previous src-tauri
+        run: rm -rf src-tauri
+
+      # ---- Initialise Tauri project non‑interactively ----
+      # Answers to prompts: (dev command) [empty], (build command) [empty], (dist dir) [..]
       - name: Initialize Tauri
         run: |
-          cargo tauri init \
-            --app-name MyApp \
-            --window-title MyApp \
-            --dist-dir .. \
-            --before-dev-command "" \
-            --before-build-command ""
+          printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
 
       # ---- Initialise Android target ----
       - name: Initialize Android

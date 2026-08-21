@@ -25,7 +25,7 @@ jobs:
         with:
           targets: aarch64-linux-android
 
-      # ---- Cache Cargo registry and build output ----
+      # ---- Cargo cache (only registry & build output, ~500MB) ----
       - name: Cache Cargo
         uses: actions/cache@v4
         with:
@@ -46,7 +46,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # ---- Android SDK (no cache) ----
+      # ---- Android SDK (no cache to keep storage low) ----
       - name: Install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
@@ -65,7 +65,7 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
-      # ---- Initialise Tauri (non‑interactive) ----
+      # ---- Init Tauri (non-interactive) ----
       - name: Clean previous src-tauri
         run: rm -rf src-tauri
 
@@ -76,9 +76,9 @@ jobs:
       # ---- Fix bundle identifier (must be unique) ----
       - name: Set custom bundle identifier
         run: |
-          # Change the identifier in tauri.conf.json
-          jq '.tauri.bundle.identifier = "com.myapp.tester"' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
-        # If jq is not installed, you can use sed (fallback)
+          # Correctly target .bundle.identifier (v2 schema)
+          jq '.bundle.identifier = "com.myapp.tester"' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
+        # If jq isn't available (it is), fallback to sed:
         # sed -i 's/"identifier": "com.tauri.dev"/"identifier": "com.myapp.tester"/' src-tauri/tauri.conf.json
 
       - name: Initialize Android

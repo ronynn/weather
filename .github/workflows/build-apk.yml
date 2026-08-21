@@ -15,30 +15,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ---- Setup Node.js (needed for Tauri CLI) ----
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      # ---- Setup Rust ----
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: aarch64-linux-android
 
-      # ---- Install Tauri CLI ----
       - name: Install Tauri CLI
         run: cargo install tauri-cli --version ^2.0.0
 
-      # ---- Setup Java ----
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # ---- Install Android SDK + NDK ----
       - name: Install Android command-line tools
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
@@ -57,25 +52,19 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
-      # ---- Remove any previous tauri project (clean slate) ----
       - name: Clean previous src-tauri
         run: rm -rf src-tauri
 
-      # ---- Initialise Tauri project non‑interactively ----
-      # Answers to prompts: (dev command) [empty], (build command) [empty], (dist dir) [..]
       - name: Initialize Tauri
         run: |
           printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
 
-      # ---- Initialise Android target ----
       - name: Initialize Android
         run: cargo tauri android init
 
-      # ---- Build ARM64 APK ----
       - name: Build APK
-        run: cargo tauri android build --apk --target aarch64-linux-android
+        run: cargo tauri android build --apk --target aarch64
 
-      # ---- Upload the APK ----
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:

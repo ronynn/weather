@@ -1,9 +1,7 @@
-name: Build Tauri Android APK (arm64)
+name: Build Tauri Android APK
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
   workflow_dispatch:
 
@@ -25,7 +23,6 @@ jobs:
         with:
           targets: aarch64-linux-android
 
-      # ---- Cargo cache (includes binaries and build artifacts) ----
       - name: Cache Cargo
         uses: actions/cache@v4
         with:
@@ -34,7 +31,6 @@ jobs:
             ~/.cargo/git
             ~/.cargo/bin
             src-tauri/target
-          # Use a static key (no hash) because we don't have Cargo.lock yet
           key: ${{ runner.os }}-cargo-v1
 
       - name: Install Tauri CLI
@@ -46,8 +42,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      # ---- Android SDK (not cached to keep storage low) ----
-      - name: Install Android command-line tools
+      - name: Install Android SDK
         run: |
           wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
           unzip commandlinetools-linux-*.zip
@@ -65,25 +60,75 @@ jobs:
       - name: Set NDK environment
         run: echo "ANDROID_NDK_HOME=$HOME/android-sdk/ndk/25.2.9519653" >> $GITHUB_ENV
 
-      # ---- Conditionally initialise Tauri (only if src-tauri doesn't exist) ----
-      - name: Initialize Tauri (if not exists)
+      # ---- Create the complete Tauri project from scratch ----
+      - name: Create src-tauri folder
         run: |
-          if [ ! -d "src-tauri" ]; then
-            printf "\n\n../\n" | cargo tauri init --app-name MyApp --window-title MyApp
-          fi
+          mkdir -p src-tauri/src
+          cat > src-tauri/tauri.conf.json << 'EOF'
+          {
+            "build": {
+              "beforeDevCommand": "",
+              "beforeBuildCommand": "",
+              "devPath": "..",
+              "distDir": ".."
+            },
+            "bundle": {
+              "identifier": "com.myapp.tester",
+              "icon": [],
+              "resources": []
+            },
+            "app": {
+              "windows": [
+                {
+                  "title": "MyApp",
+                  "width": 800,
+                  "height": 600
+                }
+              ]
+            }
+          }
+          EOF
 
-      # ---- Patch config using jq (robust, no sed pitfalls) ----
-      - name: Patch tauri.conf.json
-        run: |
-          jq '.build.beforeDevCommand = "" | .build.beforeBuildCommand = "" | .bundle.identifier = "com.myapp.tester"' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
+          cat > src-tauri/Cargo.toml << 'EOF'
+          [package]
+          name = "myapp"
+          version = "0.1.0"
+          edition = "2021"
 
+          [lib]
+          crate-type = ["staticlib", "cdylib", "rlib"]
+
+          [build-dependencies]
+          tauri-build = { version = "2", features = [] }
+
+          [dependencies]
+          tauri = { version = "2", features = ["api-all"] }
+          serde = { version = "1", features = ["derive"] }
+          serde_json = "1"
+          EOF
+
+          cat > src-tauri/src/lib.rs << 'EOF'
+          #[cfg_attr(mobile, tauri::mobile_entry_point)]
+          pub fn run() {
+            tauri::Builder::default()
+              .run(tauri::generate_context!())
+              .expect("error while running tauri application");
+          }
+          EOF
+
+          cat > src-tauri/src/main.rs << 'EOF'
+          #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+          fn main() { myapp_lib::run(); }
+          EOF
+
+      # ---- Now initialise Android (this will use our config) ----
       - name: Initialize Android
         run: cargo tauri android init
 
       - name: Build APK (arm64)
         run: cargo tauri android build --apk --target aarch64
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: tauri-arm64-apk

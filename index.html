@@ -1,176 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <meta name="keywords" content="weather,open-source,web-app,pwa" />
-  <meta name="description" content="Open source mobile web app using wttr
-        api and glassmorphism aesthetics for desktop and mobile." />
-  <meta name="subject" content="Open source mobile web app using wttr
-        api and glassmorphism aesthetics for desktop and mobile" />
-  <meta name="copyright" content="ronynn" />
-  <meta name="language" content="ES" />
-  <meta name="robots" content="index,follow" />
-  <meta name="revised" content="Sunday, June 9th, 2024, 5:15 pm" />
-  <meta name="abstract" content="" />
-  <meta name="topic" content="Weather App" />
-  <meta name="summary" content="" />
-  <meta name="Classification" content="App" />
-  <meta name="author" content="ronynn" />
-  <meta name="designer" content="ronynn" />
-  <meta name="reply-to" content="ronynn" />
-  <meta name="owner" content="ronynn" />
-  <meta name="url" content="https://ronynn.github.io" />
-  <meta name="identifier-URL" content="https://ronynn.github.io" />
-
-  <meta name="pagename" content="ronynn weather" />
-  <meta name="category" content="webapp" />
-
-  <meta name="rating" content="General" />
-
-  <meta name="subtitle" content="Open source weather app using wttr api" />
-  <meta name="target" content="all" />
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="MobileOptimized" content="320" />
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-
-  <link rel="manifest" href="manifest.webmanifest" />
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ronynn Weather</title>
-  <link rel="stylesheet" href="normalize.css" />
-  <link rel="stylesheet" href="style.css" />
-
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uplot@1.6.31/dist/uPlot.min.css">
+  <script>
+    let savedTheme = localStorage.getItem("theme") || "vibrant"
+    document.documentElement.setAttribute("data-theme", savedTheme)
+  </script>
 </head>
-
 <body>
+  <div class="app-container">
+    <header class="top-bar">
+      <div class="search-box glass-box">
+        <input type="text" id="cityInput" placeholder="Enter city name...">
+        <button id="clearBtn" title="Clear">&times;</button>
+      </div>
+      <select id="themeSelect" class="glass-box theme-dropdown">
+        <option value="vibrant">Vibrant Glass</option>
+        <option value="midnight">Midnight Slate</option>
+        <option value="forest">Forest Emerald</option>
+        <option value="sunset">Sunset Glow</option>
+      </select>
+    </header>
 
+    <div id="toast" class="toast hidden"></div>
+    <div id="offlineBanner" class="offline-banner hidden">You are currently offline. Showing cached data.</div>
 
-  <form id="myForm" class="glassmorphism-form">
-    <input type="text" id="myInput" placeholder="Enter city name .." />
-  </form>
-  <br />
-
-  <p id="loc"></p>
-
-  <center>
-    <a id="favoriteButton">(Save Searched Location)</a>
-  </center>
-
-
-
-  <p id="desc" style="text-align: center">&nbsp;</p>
-  <p id="date" style="text-align: center">&nbsp;</p>
-
-
-
-  <div class="panel">
-    <div class="left-panel">
-      <p id="temp">&nbsp;</p>
+    <div class="main-display glass-box">
+      <div class="loc-header">
+        <h1 id="locName">Loading...</h1>
+        <span id="currentDate">--</span>
+      </div>
+      <div class="weather-main-grid">
+        <div class="temp-section">
+          <span id="currentTemp">--°C</span>
+          <p id="weatherDesc">--</p>
+        </div>
+        <div class="quick-stats">
+          <div class="stat-item"><span>High/Low:</span> <strong id="highLow">-- / --</strong></div>
+          <div class="stat-item"><span>Feels Like:</span> <span id="feelsLike">--</span></div>
+          <div class="stat-item"><span>Humidity:</span> <span id="humidity">--</span></div>
+          <div class="stat-item"><span>Wind:</span> <span id="windInfo">--</span></div>
+          <div class="stat-item"><span>UV Index:</span> <span id="uvIndex">--</span></div>
+          <div class="stat-item"><span>Visibility:</span> <span id="visibility">--</span></div>
+          <div class="stat-item"><span>Pressure:</span> <span id="pressure">--</span></div>
+        </div>
+      </div>
+      <div class="sun-moon-row">
+        <div id="sunTimes" class="info-pill">Sunrise: -- | Sunset: --</div>
+        <div id="moonInfo" class="info-pill">Moon: --</div>
+      </div>
+      <div class="action-row">
+        <button id="saveLocBtn" class="glass-btn">Save Location</button>
+      </div>
     </div>
-    <div class="right-panel">
-      <p id="minmax">&nbsp;</p>
+
+    <div class="future-row glass-box">
+      <div class="future-card" id="tomorrowCard">
+        <h3>Tomorrow</h3>
+        <p id="tomorrowInfo">--</p>
+      </div>
+      <div class="divider-vertical"></div>
+      <div class="future-card" id="overmorrowCard">
+        <h3>Overmorrow</h3>
+        <p id="overmorrowInfo">--</p>
+      </div>
     </div>
-    <br />
-  </div>
 
-  <div class="future">
-    <div class="details">
-      <p id="detailsnow">&nbsp;</p>
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="today">Today</button>
+      <button class="tab-btn" data-tab="tomorrowTab">Tomorrow</button>
+      <button class="tab-btn" data-tab="overmorrowTab">Overmorrow</button>
+      <button class="tab-btn" data-tab="graphsTab">Graphs</button>
+    </nav>
+
+    <div id="today" class="tab-pane active glass-box">
+      <div id="todayTableContainer"></div>
     </div>
-    <div class="div1">
-      <p id="tomorrow">&nbsp;</p>
+    <div id="tomorrowTab" class="tab-pane glass-box">
+      <div id="tomorrowTableContainer"></div>
     </div>
-    <div class="div2">
-      <p id="overmorrow">&nbsp;</p>
+    <div id="overmorrowTab" class="tab-pane glass-box">
+      <div id="overmorrowTableContainer"></div>
     </div>
-  </div>
-
-
-
-
-  <div id="buttons">
-    <button class="tablinks" onclick="openTab(event, 'today')">
-      Today
-    </button>
-
-    <button class="tablinks" onclick="openTab(event, 'nextday')">
-      Tomorrow
-    </button>
-    <button class="tablinks" onclick="openTab(event, 'nextnextday')">
-      Overmorrow
-    </button>
-
-
-    <button class="tablinks" onclick="openTab(event, 'graphs')">
-      Graphs
-    </button>
-
-  </div>
-
-  <div id="today" class="tabcontent">
-
-    <div id="today1"></div>
-  </div>
-
-  <div id="nextday" class="tabcontent">
-
-    <div id="nextday1"></div>
-  </div>
-
-  <div id="nextnextday" class="tabcontent">
-
-    <div id="nextnextday1"></div>
-  </div>
-
-  <center>
-    <div id="graphs" class="tabcontent"></div>
-  </center>
-
-
-
-
-
-  <div id="favoriteDetails" style="margin-top:2%">
-    <center style="font-size:2em;">Saved Locations</center>
-    <div id="favoriteList">
-      <!-- Placeholder for favorite location details -->
+    <div id="graphsTab" class="tab-pane glass-box">
+      <div class="graphs-wrapper">
+        <h3>Today's Forecast</h3>
+        <div id="chartToday" class="uplot-target"></div>
+        <h3>Tomorrow's Forecast</h3>
+        <div id="chartTomorrow" class="uplot-target"></div>
+        <h3>Overmorrow's Forecast</h3>
+        <div id="chartOvermorrow" class="uplot-target"></div>
+      </div>
     </div>
+
+    <div class="favorites-section glass-box">
+      <h3>Saved Locations</h3>
+      <div id="favoritesList" class="favorites-list"></div>
+    </div>
+
+    <footer class="site-footer">
+      Open source weather app using wttr API, made with ❤️ by Ronynn
+    </footer>
   </div>
 
-
-
-
-  <footer>
-    An open source weather app using wttr API, made with ❤️ by Ronynn.
-    <br />
-    <br />
-    <a href="https://github.com/ronynn/weather"><img src="https://img.shields.io/github/stars/ronynn/weather?style=social" width="75" height="20" alt="stars on homepage repo" /></a>
-  </footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/uplot@1.6.31/dist/uPlot.iife.min.js"></script>
+  <script src="script.js"></script>
 </body>
-
-<script>
-  if (navigator.serviceWorker) {
-    navigator.serviceWorker.register("/weather/sw.js", {
-      scope: "/weather/"
-    });
-  }
-
-</script>
-<script src="script.js"></script>
-
-<script data-goatcounter="https://ronynn.goatcounter.com/count" async src="//gc.zgo.at/count.js">
-</script>
-<noscript>
-  <img src="https://ronynn.goatcounter.com/count?p=/weatherNoscript">
-  <div class="noscript" style="text-align: center;color:white;">
-    Please consider turning on javascript to run this.
-  </div>
-</noscript>
-
 </html>

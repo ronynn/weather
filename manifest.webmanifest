@@ -1,20 +1,21 @@
 {
-	"name": "Weather by Ronynn",
-	"short_name": "Ronynn Weather",
-	"description": "Stay ahead of the weather.",
-	"icons": [{
-		"src": "/weather/android-chrome-192x192.png",
-		"sizes": "192x192",
-		"type": "image/png"
-	},
-		{
-			"src": "/weather/android-chrome-512x512.png",
-			"sizes": "512x512",
-			"type": "image/png"
-		}],
-	"theme_color": "#c850c0",
-	"background_color": "#c850c0",
-	"display": "standalone",
-	"scope": "/weather/",
-	"start_url": "/weather/"
+  "name": "Ronynn Weather",
+  "short_name": "Weather",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#4158d0",
+  "theme_color": "#4158d0",
+  "description": "A glassy open source weather application",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }

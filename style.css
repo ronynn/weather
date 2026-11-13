@@ -1,35 +1,48 @@
+/* ------------------------------------------------------------------
+   THEME TOKENS
+   Cards are now tinted grey panels instead of blurred white glass.
+   Each theme gets a grey that reads correctly over its gradient.
+------------------------------------------------------------------ */
 :root {
   --bg-color: #4158d0;
   --bg-image: linear-gradient(to top, #4158d0 0%, #c850c0 100%);
-  --card-bg: rgba(255, 255, 255, 0.15);
-  --card-border: rgba(255, 255, 255, 0.2);
+  --card-bg: rgba(55, 55, 65, 0.55);
+  --card-border: rgba(255, 255, 255, 0.14);
+  --card-highlight: rgba(255, 255, 255, 0.10);
   --text-color: #ffffff;
 }
 html[data-theme="midnight"] {
   --bg-color: #121212;
   --bg-image: linear-gradient(to top, #0f2027 0%, #203a43 50%, #2c5364 100%);
-  --card-bg: rgba(0, 0, 0, 0.35);
-  --card-border: rgba(255, 255, 255, 0.1);
+  --card-bg: rgba(28, 30, 38, 0.68);
+  --card-border: rgba(255, 255, 255, 0.10);
+  --card-highlight: rgba(255, 255, 255, 0.08);
 }
 html[data-theme="forest"] {
   --bg-color: #134e5e;
   --bg-image: linear-gradient(to top, #134e5e 0%, #71b280 100%);
-  --card-bg: rgba(255, 255, 255, 0.15);
-  --card-border: rgba(255, 255, 255, 0.2);
+  --card-bg: rgba(40, 55, 58, 0.58);
+  --card-border: rgba(255, 255, 255, 0.14);
+  --card-highlight: rgba(255, 255, 255, 0.10);
 }
 html[data-theme="sunset"] {
   --bg-color: #ff7e5f;
   --bg-image: linear-gradient(to top, #ff7e5f 0%, #feb47b 100%);
-  --card-bg: rgba(255, 255, 255, 0.18);
-  --card-border: rgba(255, 255, 255, 0.25);
+  --card-bg: rgba(65, 55, 58, 0.55);
+  --card-border: rgba(255, 255, 255, 0.16);
+  --card-highlight: rgba(255, 255, 255, 0.12);
 }
 
 /* ------------------------------------------------------------------
    BODY
-   The gradient now lives on a fixed pseudo-element painted once into
-   its own compositor layer. No background-attachment: fixed (which
-   forced a full-body repaint every scroll frame, and is broken on iOS).
+   Gradient lives on a fixed, promoted pseudo-element. No filter, no
+   attachment: fixed (which forces per-frame body repaints and is
+   broken on iOS). One stable compositor layer, zero scroll work.
 ------------------------------------------------------------------ */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
@@ -39,16 +52,28 @@ body {
   display: flex;
   justify-content: center;
   min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
 }
+
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   background-image: var(--bg-image);
+  background-color: var(--bg-color);
   pointer-events: none;
+  transform: translateZ(0);
+  /* If scroll is still stuttery on iOS specifically, delete the two
+     lines above and set position: absolute; width: 100%; height: 100%
+     instead — gradient will scroll with the page but iOS won't use the
+     slow fixed-layer path. */
 }
 
+/* ------------------------------------------------------------------
+   APP CONTAINER
+------------------------------------------------------------------ */
 .app-container {
   width: 100%;
   max-width: 720px;
@@ -59,37 +84,21 @@ body::before {
 }
 
 /* ------------------------------------------------------------------
-   GLASS CARDS
-   backdrop-filter removed from every card. Over a smooth linear
-   gradient it produces almost identical pixels but costs an offscreen
-   blur pass per card on every paint. Chevron-shadow also shrunk from
-   32px/0.2 to 16px/0.15 for the same reason.
+   GREY GLASS CARD
+   No backdrop-filter. No drop shadow. Just a translucent grey fill,
+   a 1px border, and a cheap inset top-highlight that fakes the
+   light-catching top edge of real glass. contain: layout style keeps
+   each card's layout isolated without forcing separate paint chunks.
 ------------------------------------------------------------------ */
 .glass-box {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 1px 0 var(--card-highlight);
   box-sizing: border-box;
-  contain: layout paint style;
+  contain: layout style;
 }
-
-/* Optional: if you ever DO want real frosted glass (e.g. image behind),
-   apply the blur exactly ONCE here instead of on every card. */
-/*
-.app-container { position: relative; isolation: isolate; }
-.app-container::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: 24px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  pointer-events: none;
-}
-*/
 
 /* ------------------------------------------------------------------
    TOP BAR
@@ -133,25 +142,25 @@ body::before {
   border-radius: 12px;
   outline: none;
   cursor: pointer;
+  box-shadow: inset 0 1px 0 var(--card-highlight);
 }
 
 /* ------------------------------------------------------------------
    TOASTS / BANNERS
-   Single composited layer; animate opacity only. will-change is scoped
-   to opacity so we don't waste a compositor layer on a filter.
+   Composited, opacity-only animation. No will-change (let the browser
+   decide; will-change on idle elements is a common perf footgun).
 ------------------------------------------------------------------ */
 .toast {
   position: fixed;
   top: 20px;
   left: 50%;
-  transform: translateX(-50%) translateZ(0);
+  transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 10px 20px;
   border-radius: 8px;
   z-index: 1000;
-  transition: opacity 0.3s;
-  will-change: opacity;
+  transition: opacity 0.25s ease;
 }
 .toast.hidden {
   opacity: 0;
@@ -161,15 +170,14 @@ body::before {
   position: fixed;
   bottom: 20px;
   left: 50%;
-  transform: translateX(-50%) translateZ(0);
+  transform: translateX(-50%);
   background: rgba(220, 50, 50, 0.9);
   color: white;
   padding: 8px 16px;
   border-radius: 8px;
   z-index: 1000;
   font-size: 0.9rem;
-  transition: opacity 0.3s;
-  will-change: opacity;
+  transition: opacity 0.25s ease;
 }
 .offline-banner.hidden {
   opacity: 0;
@@ -229,7 +237,7 @@ body::before {
   font-size: 0.9rem;
 }
 .stat-item {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   padding: 6px 10px;
   border-radius: 8px;
   display: flex;
@@ -242,7 +250,7 @@ body::before {
   flex-wrap: wrap;
 }
 .info-pill {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 0.85rem;
@@ -259,10 +267,10 @@ body::before {
 
 /* ------------------------------------------------------------------
    BUTTONS
-   Transition only background-color (cheap, no layout/paint storm).
+   background-color transitions only — no repaint storm, no filter.
 ------------------------------------------------------------------ */
 .glass-btn {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.14);
   border: 1px solid var(--card-border);
   color: inherit;
   padding: 8px 16px;
@@ -272,7 +280,10 @@ body::before {
   transition: background-color 0.15s ease;
 }
 .glass-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.24);
+}
+.glass-btn:active {
+  background: rgba(255, 255, 255, 0.30);
 }
 
 /* ------------------------------------------------------------------
@@ -312,6 +323,10 @@ body::before {
   display: flex;
   gap: 8px;
   overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-nav::-webkit-scrollbar {
+  display: none;
 }
 .tab-btn {
   flex: 1;
@@ -323,25 +338,25 @@ body::before {
   cursor: pointer;
   font-weight: 500;
   white-space: nowrap;
+  box-shadow: inset 0 1px 0 var(--card-highlight);
   transition: background-color 0.15s ease;
 }
 .tab-btn.active {
-  background: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.28);
 }
 
 /* ------------------------------------------------------------------
    PANES
-   display:none for inactive tabs (cheapest), plus content-visibility
-   auto so offscreen content inside an active pane is also skipped.
+   display:none for inactive tabs is the cheapest possible "skip".
+   No content-visibility on the ACTIVE pane — it's already in view,
+   so content-visibility only adds layout-jump risk and no benefit.
 ------------------------------------------------------------------ */
 .tab-pane {
   display: none;
-  contain: layout paint style;
+  contain: layout style;
 }
 .tab-pane.active {
   display: block;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 320px;
 }
 
 /* ------------------------------------------------------------------
@@ -352,32 +367,33 @@ body::before {
   border-collapse: collapse;
   margin-top: 4px;
   font-size: 0.9rem;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 300px;
 }
 .weather-table th,
 .weather-table td {
   padding: 10px;
   text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .weather-table th {
   font-weight: 600;
   opacity: 0.9;
 }
 .weather-table tr.highlight-row {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.14);
   font-weight: bold;
 }
 
 /* ------------------------------------------------------------------
    GRAPHS
+   Light opaque surface (uPlot needs the contrast). No filter, no
+   contain: paint — the chart canvas sits in a normal paint chunk and
+   the compositor handles it fine because nothing inside is animating.
 ------------------------------------------------------------------ */
 .graphs-wrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  contain: layout paint style;
+  contain: layout style;
 }
 .graphs-wrapper h3 {
   margin: 0;
@@ -385,14 +401,11 @@ body::before {
   opacity: 0.9;
 }
 .uplot-target {
-  background: rgba(245, 245, 247, 0.95);
+  background: rgba(245, 245, 247, 0.96);
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 8px;
   overflow: hidden;
-  contain: layout paint style;
-  content-visibility: auto;
-  contain-intrinsic-size: auto 240px;
 }
 .uplot {
   font-family: inherit !important;
@@ -420,13 +433,16 @@ body::before {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.12);
   border: 1px solid var(--card-border);
   padding: 6px 12px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: background-color 0.15s ease;
+}
+.fav-pill:hover {
+  background: rgba(255, 255, 255, 0.20);
 }
 .fav-pill button {
   background: transparent;
@@ -452,22 +468,11 @@ body::before {
 }
 
 /* ------------------------------------------------------------------
-   ACCESSIBILITY / DEVICE FALLBACKS
-   Honour reduced-transparency and drop blur entirely on small screens
-   for lower-end phones.
+   ACCESSIBILITY
 ------------------------------------------------------------------ */
-@media (prefers-reduced-transparency: reduce) {
-  .glass-box {
-    background: rgba(0, 0, 0, 0.5);
-  }
-}
-
-@media (max-width: 600px) {
-  /* No-op today (blur already removed per-card), but kept as a
-     guard for anyone who re-enables the optional app-container::before
-     frosted background above. */
-  .app-container::before {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }
